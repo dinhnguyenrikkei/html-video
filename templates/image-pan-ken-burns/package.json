@@ -1,8 +1,0 @@
-{
-  "name": "@html-video/template-image-pan-ken-burns",
-  "version": "0.1.0",
-  "description": "html-video template: image-pan-ken-burns",
-  "license": "Apache-2.0",
-  "private": true,
-  "files": ["template.html-video.yaml", "source", "preview.png", "README.md"]
-}

@@ -4,251 +4,273 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>html-video · Studio</title>
+<link rel="stylesheet" href="/tokens.css" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap" rel="stylesheet" />
 <style>
-  :root {
-    --bg: #0e0e10;
-    --panel: #16161a;
-    --panel-2: #1c1c22;
-    --panel-3: #232329;
-    --border: #2a2a32;
-    --border-strong: #3a3a44;
-    --fg: #f5f5f5;
-    --muted: #8a8a92;
-    --muted-2: #5e5e66;
-    --accent: #ffb84d;
-    --good: #6dd99c;
-    --warn: #ff8a4d;
-    --danger: #ff5c5c;
-    --link: #89c5ff;
-  }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  html, body { background: var(--bg); color: var(--fg);
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
-    height: 100vh; overflow: hidden; font-size: 13px; }
-  button { font-family: inherit; }
-  a { color: var(--link); }
+  html, body { background: var(--bg); color: var(--text); font-family: var(--font-sans);
+    height: 100vh; overflow: hidden; font-size: 13.5px; line-height: 1.5; }
+  button, input, textarea, select { font-family: inherit; font-size: inherit; }
+  a { color: var(--accent); }
 
-  .app { display: grid; grid-template-columns: 240px 1fr; height: 100vh; }
+  /* ===== App grid ===== */
+  .app { display: grid; grid-template-columns: 248px 1fr; height: 100vh; }
 
-  /* ===== Left: PROJECTS ===== */
-  .sidebar { background: var(--panel); border-right: 1px solid var(--border);
-    display: flex; flex-direction: column; }
+  /* ===== Sidebar (Projects) ===== */
+  .sidebar { background: var(--bg-panel); border-right: 1px solid var(--border);
+    display: flex; flex-direction: column; min-width: 0; }
   .sidebar header { padding: 14px 16px; border-bottom: 1px solid var(--border);
-    display: flex; align-items: center; gap: 8px; }
-  .sidebar header .logo { width: 22px; height: 22px; border-radius: 5px;
-    background: linear-gradient(135deg, #ffb84d, #ff5c5c);
-    display: grid; place-items: center; font-weight: 800; color: #0e0e10; }
-  .sidebar header h1 { font-size: 13px; font-weight: 600; letter-spacing: -.005em; }
-  .sidebar header .v { color: var(--muted); font-size: 10px; margin-left: auto; }
+    display: flex; align-items: center; gap: 10px; }
+  .sidebar header .logo { width: 26px; height: 26px; border-radius: var(--radius-sm);
+    background: var(--accent); color: var(--accent-fg); display: grid; place-items: center;
+    font-weight: 700; font-family: var(--font-serif); font-size: 15px; }
+  .sidebar header h1 { font-size: 14px; font-weight: 600; letter-spacing: -.005em; }
+  .sidebar header .v { font-size: 10px; color: var(--text-muted); margin-left: auto;
+    font-family: var(--font-mono); }
 
-  .sidebar .new-project { margin: 12px; padding: 10px 12px; background: var(--accent);
-    color: #0e0e10; border: none; border-radius: 5px; font-weight: 600; cursor: pointer;
-    transition: opacity .15s; }
-  .sidebar .new-project:hover { opacity: .9; }
+  .new-project { margin: 14px; padding: 10px 14px; background: var(--accent);
+    color: var(--accent-fg); border: 0; border-radius: var(--radius-sm); font-weight: 500;
+    cursor: pointer; box-shadow: inset 0 -1px 0 rgba(0,0,0,.08), 0 6px 14px rgba(201, 100, 66, .24);
+    transition: background .15s; }
+  .new-project:hover { background: var(--accent-hover); }
 
-  .sidebar .heading { padding: 6px 16px; font-size: 10px; letter-spacing: .14em;
-    text-transform: uppercase; color: var(--muted); margin-top: 8px; }
-  .sidebar .project-list { flex: 1; overflow-y: auto; }
-  .project-row { padding: 10px 16px; cursor: pointer; border-left: 2px solid transparent;
-    display: flex; flex-direction: column; gap: 3px; transition: background .12s; }
-  .project-row:hover { background: var(--panel-2); }
-  .project-row.active { background: var(--panel-3); border-left-color: var(--accent); }
-  .project-row .name { font-size: 13px; font-weight: 500; }
-  .project-row .meta { font-size: 11px; color: var(--muted); }
-  .project-row .meta .pill { padding: 1px 6px; border-radius: 999px; background: var(--panel-3);
-    margin-right: 4px; font-size: 9px; letter-spacing: .04em; text-transform: uppercase; }
-  .project-row .meta .pill.draft { background: #3a3a44; color: var(--muted); }
-  .project-row .meta .pill.previewed { background: #2a4a3c; color: var(--good); }
-  .project-row .meta .pill.rendered { background: #4a3a1a; color: var(--accent); }
+  .heading { padding: 6px 18px; font-size: 11px; letter-spacing: .12em;
+    text-transform: uppercase; color: var(--text-muted); margin-top: 10px; }
+  .project-list { flex: 1; overflow-y: auto; padding: 0 8px 14px; }
+  .project-row { padding: 10px 12px; cursor: pointer; border-radius: var(--radius-sm);
+    transition: background .12s; margin-bottom: 2px; }
+  .project-row:hover { background: var(--bg-subtle); }
+  .project-row.active { background: var(--accent-soft); color: var(--text); }
+  .project-row .name { font-size: 13.5px; font-weight: 500; margin-bottom: 3px;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .project-row .meta { font-size: 11px; color: var(--text-muted); display: flex; gap: 8px; align-items: center; }
+  .project-row .meta .pill { padding: 1px 7px; border-radius: var(--radius-pill);
+    font-size: 9.5px; letter-spacing: .04em; text-transform: uppercase; font-weight: 500; }
+  .project-row .meta .pill.draft { background: var(--bg-subtle); color: var(--text-muted); }
+  .project-row .meta .pill.previewed { background: var(--green-bg); color: var(--green); }
+  .project-row .meta .pill.rendered { background: var(--amber-bg); color: var(--amber); }
 
-  /* ===== Main: two columns ===== */
-  .main { display: grid; grid-template-columns: minmax(280px, 360px) 1fr;
-    overflow: hidden; }
-  .empty-state { display: grid; place-items: center; padding: 6vh 8vw; text-align: center;
-    color: var(--muted); grid-column: 1 / -1; }
-  .empty-state h2 { font-size: 24px; color: var(--fg); margin-bottom: 12px;
-    font-weight: 500; letter-spacing: -.005em; }
-  .empty-state p { font-size: 13px; line-height: 1.7; max-width: 480px; }
+  .empty-list { padding: 24px 18px; text-align: center; color: var(--text-faint);
+    font-size: 12px; line-height: 1.7; }
 
-  /* ===== Middle: ASSETS ===== */
-  .assets-pane { background: var(--panel); border-right: 1px solid var(--border);
-    display: flex; flex-direction: column; min-height: 0; }
-  .pane-header { padding: 14px 18px; border-bottom: 1px solid var(--border);
-    display: flex; align-items: center; justify-content: space-between; }
-  .pane-header h2 { font-size: 13px; font-weight: 600; letter-spacing: -.005em; }
-  .pane-header .meta { font-size: 11px; color: var(--muted); }
+  /* ===== Main area: empty state ===== */
+  .empty-state { display: grid; place-items: center; padding: 8vh 12vw;
+    text-align: center; color: var(--text-muted); }
+  .empty-state .ico { font-size: 40px; margin-bottom: 14px; opacity: .6; }
+  .empty-state h2 { font-family: var(--font-serif); font-size: 24px; color: var(--text);
+    margin-bottom: 12px; font-weight: 500; letter-spacing: -.005em; }
+  .empty-state p { font-size: 14px; line-height: 1.7; max-width: 560px; }
 
-  .project-name { padding: 14px 18px; border-bottom: 1px solid var(--border); }
-  .project-name input { width: 100%; background: transparent; border: 0; color: var(--fg);
-    font-size: 18px; font-weight: 600; padding: 4px 0; outline: none;
+  /* ===== Three-pane layout (project active) ===== */
+  .workspace { display: grid; grid-template-columns: 1fr 380px; height: 100vh; overflow: hidden; }
+  .chat-pane { display: grid; grid-template-rows: auto 1fr auto; min-width: 0;
+    background: var(--bg-panel); border-right: 1px solid var(--border); }
+  .right-pane { display: grid; grid-template-rows: auto 1fr auto; min-width: 0;
+    background: var(--bg); }
+
+  /* === Chat header === */
+  .chat-header { padding: 14px 22px; border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; gap: 12px; }
+  .chat-header .name-input { flex: 1; background: transparent; border: 0;
+    color: var(--text); font-size: 16px; font-weight: 600; padding: 4px 0; outline: none;
     border-bottom: 1px solid transparent; transition: border-color .12s; }
-  .project-name input:hover { border-bottom-color: var(--border-strong); }
-  .project-name input:focus { border-bottom-color: var(--accent); }
-  .project-name .intent { font-size: 12px; color: var(--muted); margin-top: 4px; }
+  .chat-header .name-input:hover { border-bottom-color: var(--border-strong); }
+  .chat-header .name-input:focus { border-bottom-color: var(--accent); }
+  .chat-header .agent-pill { font-size: 11px; padding: 3px 10px; border-radius: var(--radius-pill);
+    background: var(--bg-subtle); border: 1px solid var(--border); color: var(--text-muted);
+    font-family: var(--font-mono); }
+  .chat-header .agent-pill.connected { background: var(--green-bg); color: var(--green);
+    border-color: var(--green); }
 
-  .upload-zone { margin: 12px 18px; padding: 18px; border: 1px dashed var(--border-strong);
-    border-radius: 6px; text-align: center; color: var(--muted); cursor: pointer;
-    transition: border-color .12s, background .12s; font-size: 12px; }
-  .upload-zone:hover, .upload-zone.drag { border-color: var(--accent);
-    background: rgba(255, 184, 77, .04); color: var(--fg); }
-  .upload-zone .actions { display: flex; gap: 4px; justify-content: center;
-    flex-wrap: wrap; margin-top: 6px; }
-  .upload-zone .actions button { background: var(--panel-2); color: var(--muted);
-    border: 1px solid var(--border); padding: 3px 8px; border-radius: 3px;
-    font-size: 11px; cursor: pointer; }
-  .upload-zone .actions button:hover { color: var(--fg); border-color: var(--border-strong); }
+  /* === Chat log === */
+  .chat-log { overflow-y: auto; padding: 18px 22px; display: flex; flex-direction: column; gap: 14px; }
+  .msg { max-width: 90%; }
+  .msg.user { align-self: flex-end; background: var(--selected); color: var(--selected-fg);
+    padding: 9px 14px; border-radius: 14px 14px 4px 14px; font-size: 13.5px; line-height: 1.5; }
+  .msg.assistant { align-self: flex-start; max-width: 100%; font-size: 13.5px; line-height: 1.6; color: var(--text); }
+  .msg.assistant .role { font-size: 10.5px; color: var(--text-muted); letter-spacing: .12em;
+    text-transform: uppercase; margin-bottom: 5px; font-family: var(--font-mono); }
+  .msg.assistant .body { white-space: pre-wrap; word-wrap: break-word; }
+  .msg.assistant .body pre { background: var(--bg-subtle); border: 1px solid var(--border);
+    padding: 10px 14px; border-radius: var(--radius-sm); overflow-x: auto;
+    font-family: var(--font-mono); font-size: 12px; line-height: 1.55; margin: 6px 0; }
+  .msg.assistant .body code { background: var(--bg-subtle); padding: 1px 5px;
+    border-radius: 3px; font-family: var(--font-mono); font-size: 12px; }
+  .msg.system { align-self: center; font-size: 11px; color: var(--text-faint);
+    font-family: var(--font-mono); font-style: italic; }
+  .msg.tool-card { align-self: stretch; background: var(--bg-subtle);
+    border: 1px solid var(--border); border-radius: var(--radius-sm);
+    padding: 8px 12px; font-size: 12px; }
+  .msg.tool-card .tool-name { font-family: var(--font-mono); font-weight: 600;
+    color: var(--accent); }
+  .msg.tool-card .tool-output { margin-top: 4px; color: var(--text-muted);
+    font-family: var(--font-mono); font-size: 11px; white-space: pre-wrap;
+    max-height: 120px; overflow-y: auto; }
 
-  .asset-list { flex: 1; overflow-y: auto; padding: 0 12px 12px; }
-  .asset-row { display: grid; grid-template-columns: 28px 1fr auto;
-    align-items: center; padding: 8px 6px; gap: 10px; border-radius: 4px;
-    transition: background .12s; }
-  .asset-row:hover { background: var(--panel-2); }
-  .asset-row .icon { font-size: 16px; text-align: center; }
-  .asset-row .body { min-width: 0; }
-  .asset-row .name { font-size: 12px; font-weight: 500; overflow: hidden;
-    text-overflow: ellipsis; white-space: nowrap; }
-  .asset-row .meta { font-size: 10px; color: var(--muted); margin-top: 1px;
-    overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .asset-row .remove { background: none; border: none; color: var(--muted-2);
-    cursor: pointer; font-size: 14px; padding: 4px; opacity: 0; transition: opacity .12s; }
-  .asset-row:hover .remove { opacity: 1; }
-  .asset-row .remove:hover { color: var(--danger); }
+  .chat-empty { display: grid; place-items: center; height: 100%;
+    color: var(--text-faint); font-size: 13px; padding: 0 18px; text-align: center;
+    line-height: 1.7; }
+  .chat-empty .ico { font-size: 32px; margin-bottom: 12px; opacity: .5; }
 
-  /* ===== Right: TEMPLATE + PREVIEW ===== */
-  .template-pane { display: grid; grid-template-rows: auto 1fr; overflow: hidden; }
-  .template-header { padding: 14px 24px; border-bottom: 1px solid var(--border);
-    display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
-  .template-header h2 { font-size: 13px; font-weight: 600; }
-  .template-header select { background: var(--panel-2); color: var(--fg);
-    border: 1px solid var(--border); padding: 6px 10px; border-radius: 4px;
-    font-family: inherit; font-size: 12px; min-width: 240px; }
-  .template-header .info { color: var(--muted); font-size: 11px; flex: 1; }
-  .template-header .export-btn { background: var(--accent); color: #0e0e10; border: 0;
-    padding: 8px 16px; border-radius: 4px; font-weight: 600; cursor: pointer;
-    font-size: 12px; transition: opacity .15s; }
-  .template-header .export-btn:disabled { opacity: .35; cursor: not-allowed; }
-  .template-header .export-btn:not(:disabled):hover { opacity: .9; }
+  /* === Composer === */
+  .composer { padding: 14px 22px 18px; background: var(--bg-panel);
+    border-top: 1px solid var(--border); }
+  .pinned-vars { background: var(--bg-subtle); border: 1px solid var(--border);
+    border-radius: var(--radius-sm); padding: 10px 12px; margin-bottom: 10px; font-size: 12px; }
+  .pinned-vars .pv-title { font-size: 10.5px; letter-spacing: .12em; text-transform: uppercase;
+    color: var(--text-muted); margin-bottom: 6px; font-family: var(--font-mono); }
+  .pinned-vars .pv-list { display: flex; flex-wrap: wrap; gap: 6px; }
+  .pinned-vars .pv-item { padding: 2px 8px; background: var(--bg-panel);
+    border: 1px solid var(--border); border-radius: var(--radius-pill);
+    font-size: 11px; }
+  .pinned-vars .pv-item.required { border-color: var(--accent); color: var(--accent); }
+  .pinned-vars .pv-item.set { border-color: var(--green); color: var(--green); background: var(--green-bg); }
 
-  .work-area { display: grid; grid-template-columns: 280px 1fr; overflow: hidden;
-    min-height: 0; }
-  .form-pane { background: var(--panel-2); border-right: 1px solid var(--border);
-    overflow-y: auto; padding: 18px; }
-  .form-pane .empty { color: var(--muted); font-size: 12px; text-align: center;
-    padding: 30px 16px; line-height: 1.7; }
-  .form-pane h3 { font-size: 11px; letter-spacing: .14em; text-transform: uppercase;
-    color: var(--muted); margin-bottom: 14px; padding-bottom: 8px;
-    border-bottom: 1px solid var(--border); }
-  .field { margin-bottom: 14px; }
-  .field label { display: flex; align-items: baseline; gap: 4px;
-    font-size: 11px; color: var(--muted); margin-bottom: 5px; font-weight: 500; }
-  .field label .req { color: var(--danger); }
-  .field label .desc { color: var(--muted-2); font-weight: 400;
-    font-size: 10px; line-height: 1.4; margin-top: 2px; flex-basis: 100%; }
+  .composer-shell { background: var(--bg); border: 1px solid var(--border-strong);
+    border-radius: var(--radius); padding: 8px 10px; transition: border-color .15s;
+    display: flex; flex-direction: column; gap: 6px; }
+  .composer-shell:focus-within { border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-soft); }
+  .composer textarea { width: 100%; background: transparent; border: 0; outline: none;
+    color: var(--text); resize: none; min-height: 36px; max-height: 184px;
+    padding: 4px 4px; line-height: 1.5; }
+  .composer .actions { display: flex; align-items: center; gap: 6px; }
+  .composer .attach-btn { background: transparent; border: 0; color: var(--text-muted);
+    cursor: pointer; padding: 4px 6px; border-radius: var(--radius-sm); font-size: 13px; }
+  .composer .attach-btn:hover { color: var(--text); background: var(--bg-subtle); }
+  .composer .send-btn { margin-left: auto; background: var(--accent);
+    color: var(--accent-fg); border: 0; padding: 6px 16px; border-radius: var(--radius-sm);
+    font-weight: 500; cursor: pointer; }
+  .composer .send-btn:hover { background: var(--accent-hover); }
+  .composer .send-btn:disabled { opacity: .4; cursor: not-allowed; }
+
+  /* === Right pane: template + preview === */
+  .tpl-header { padding: 14px 22px; border-bottom: 1px solid var(--border);
+    display: flex; flex-direction: column; gap: 10px; }
+  .tpl-header .row { display: flex; align-items: center; gap: 10px; }
+  .tpl-header h2 { font-size: 14px; font-weight: 600; flex: 1; }
+  .tpl-header select { background: var(--bg-panel); border: 1px solid var(--border);
+    color: var(--text); padding: 7px 10px; border-radius: var(--radius-sm);
+    font-size: 12.5px; cursor: pointer; }
+  .tpl-header select:focus { outline: none; border-color: var(--accent); }
+  .tpl-header .tpl-info { font-size: 11px; color: var(--text-muted); font-family: var(--font-mono); }
+
+  .preview-area { padding: 16px 22px; overflow-y: auto; display: flex; flex-direction: column; gap: 14px; }
+  .preview-frame { aspect-ratio: 16/9; background: #000; border-radius: var(--radius);
+    overflow: hidden; box-shadow: var(--shadow-md); }
+  .preview-frame iframe { width: 100%; height: 100%; border: 0; }
+  .preview-placeholder { aspect-ratio: 16/9; background: var(--bg-subtle);
+    border: 2px dashed var(--border-strong); border-radius: var(--radius);
+    display: grid; place-items: center; padding: 30px; text-align: center;
+    color: var(--text-muted); font-size: 12.5px; line-height: 1.7; }
+
+  .vars-grid { background: var(--bg-panel); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 14px 16px; }
+  .vars-grid h3 { font-size: 11px; letter-spacing: .12em; text-transform: uppercase;
+    color: var(--text-muted); margin-bottom: 14px; font-family: var(--font-mono); }
+  .field { margin-bottom: 12px; }
+  .field label { display: block; font-size: 11.5px; color: var(--text-muted);
+    margin-bottom: 5px; font-weight: 500; }
+  .field label .req { color: var(--accent); }
+  .field label .desc { color: var(--text-faint); font-weight: 400; font-size: 10.5px;
+    line-height: 1.5; margin-top: 3px; display: block; }
   .field input[type=text], .field input[type=number], .field textarea, .field select {
-    width: 100%; background: var(--panel); border: 1px solid var(--border);
-    color: var(--fg); padding: 6px 8px; border-radius: 3px;
-    font-family: inherit; font-size: 12px; }
+    width: 100%; background: var(--bg); border: 1px solid var(--border); color: var(--text);
+    padding: 7px 9px; border-radius: var(--radius-sm); }
   .field input:focus, .field textarea:focus, .field select:focus {
-    outline: none; border-color: var(--accent); }
-  .field textarea { font-family: 'JetBrains Mono', monospace; font-size: 11px;
-    min-height: 80px; resize: vertical; }
+    outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+  .field textarea { font-family: var(--font-mono); font-size: 12px; min-height: 64px;
+    resize: vertical; }
   .field .table-rows { display: flex; flex-direction: column; gap: 4px; }
-  .field .table-row { display: grid; grid-template-columns: 1fr 80px 22px;
+  .field .table-row { display: grid; grid-template-columns: 1fr 90px 22px;
     gap: 4px; align-items: center; }
-  .field .table-row input { font-size: 11px; padding: 4px 6px; }
-  .field .table-row .rm { background: none; border: 0; color: var(--muted-2);
-    cursor: pointer; font-size: 14px; }
-  .field .table-row .rm:hover { color: var(--danger); }
-  .field .add-row { background: var(--panel); border: 1px dashed var(--border);
-    color: var(--muted); padding: 4px 8px; border-radius: 3px; cursor: pointer;
-    font-size: 11px; margin-top: 4px; width: 100%; }
-  .field .add-row:hover { color: var(--fg); border-color: var(--border-strong); }
-  .field .asset-pick { display: flex; gap: 6px; align-items: center; }
-  .field .asset-pick select { flex: 1; }
-  .field .asset-pick .preview-thumb { width: 28px; height: 28px; border-radius: 3px;
-    background: var(--panel) center / cover no-repeat; flex-shrink: 0; }
+  .field .table-row input { padding: 5px 7px; }
+  .field .add-row { background: var(--bg); border: 1px dashed var(--border-strong);
+    color: var(--text-muted); padding: 6px 10px; border-radius: var(--radius-sm); cursor: pointer;
+    font-size: 11.5px; margin-top: 4px; width: 100%; transition: all .12s; }
+  .field .add-row:hover { color: var(--text); border-color: var(--accent); border-style: solid; }
+  .field .rm { background: none; border: 0; color: var(--text-faint);
+    cursor: pointer; font-size: 14px; padding: 4px; }
+  .field .rm:hover { color: var(--red); }
 
-  .preview-pane { background: #000; display: flex; flex-direction: column;
-    overflow: hidden; min-height: 0; }
-  .preview-pane .frame { flex: 1; position: relative; display: grid; place-items: center;
-    background: #000; }
-  .preview-pane iframe { width: 100%; height: 100%; border: 0; background: #000; }
-  .preview-pane .placeholder { color: var(--muted); font-size: 12px; padding: 20px;
-    text-align: center; line-height: 1.7; }
-  .preview-pane .placeholder b { color: var(--fg); font-weight: 500; }
-  .preview-pane .toolbar { padding: 8px 16px; background: var(--panel);
-    border-top: 1px solid var(--border); display: flex; gap: 12px;
-    align-items: center; font-size: 11px; color: var(--muted); }
-  .preview-pane .toolbar .refresh { background: var(--panel-2);
-    border: 1px solid var(--border); color: var(--fg); padding: 4px 10px;
-    border-radius: 3px; cursor: pointer; font-size: 11px; }
-  .preview-pane .toolbar .refresh:hover { border-color: var(--accent); }
+  .right-footer { padding: 12px 22px; border-top: 1px solid var(--border);
+    display: flex; align-items: center; gap: 10px; background: var(--bg-panel); }
+  .right-footer .status { flex: 1; font-size: 11.5px; color: var(--text-muted);
+    font-family: var(--font-mono); }
+  .right-footer .export-btn { background: var(--accent); color: var(--accent-fg);
+    border: 0; padding: 8px 18px; border-radius: var(--radius-sm); font-weight: 500;
+    cursor: pointer; font-size: 13px; transition: background .15s;
+    box-shadow: inset 0 -1px 0 rgba(0,0,0,.08); }
+  .right-footer .export-btn:hover:not(:disabled) { background: var(--accent-hover); }
+  .right-footer .export-btn:disabled { opacity: .35; cursor: not-allowed; }
 
   /* ===== Toast ===== */
   .toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
-    background: var(--panel-3); border: 1px solid var(--border); padding: 8px 14px;
-    border-radius: 4px; font-size: 12px; opacity: 0; transition: opacity .2s; z-index: 1000;
+    background: var(--bg-elevated); border: 1px solid var(--border);
+    box-shadow: var(--shadow-lg); padding: 10px 18px; border-radius: var(--radius);
+    font-size: 13px; opacity: 0; transition: opacity .2s; z-index: 1000;
     pointer-events: none; }
   .toast.show { opacity: 1; }
-  .toast.success { border-color: var(--good); }
-  .toast.error { border-color: var(--danger); }
+  .toast.success { border-color: var(--green); color: var(--green); }
+  .toast.error { border-color: var(--red); color: var(--red); }
 
   /* ===== Modal ===== */
-  .modal-bg { position: fixed; inset: 0; background: rgba(0,0,0,.7); display: none;
+  .modal-bg { position: fixed; inset: 0; background: rgba(0,0,0,.4); display: none;
     align-items: center; justify-content: center; z-index: 100; }
   .modal-bg.show { display: flex; }
-  .modal { background: var(--panel); border: 1px solid var(--border); border-radius: 6px;
-    padding: 24px; min-width: 420px; max-width: 90vw; }
-  .modal h2 { font-size: 16px; margin-bottom: 16px; font-weight: 600; }
-  .modal .modal-body input { width: 100%; background: var(--panel-2);
-    border: 1px solid var(--border); color: var(--fg); padding: 8px 10px;
-    border-radius: 3px; font-family: inherit; font-size: 13px; margin-bottom: 12px; }
-  .modal .modal-body input:focus { outline: none; border-color: var(--accent); }
-  .modal .modal-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 8px; }
-  .modal button { background: var(--panel-2); border: 1px solid var(--border);
-    color: var(--fg); padding: 6px 14px; border-radius: 3px; cursor: pointer;
-    font-size: 12px; font-family: inherit; }
+  .modal { background: var(--bg-elevated); box-shadow: var(--shadow-lg);
+    border-radius: var(--radius-lg); padding: 24px; min-width: 440px; max-width: 90vw; }
+  .modal h2 { font-family: var(--font-serif); font-size: 20px; margin-bottom: 18px;
+    font-weight: 500; }
+  .modal .modal-body input { width: 100%; background: var(--bg);
+    border: 1px solid var(--border); color: var(--text); padding: 10px 12px;
+    border-radius: var(--radius-sm); margin-bottom: 12px; font-size: 14px; }
+  .modal .modal-body input:focus { outline: none; border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-soft); }
+  .modal .modal-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 12px; }
+  .modal button { background: var(--bg-panel); border: 1px solid var(--border);
+    color: var(--text); padding: 8px 16px; border-radius: var(--radius-sm); cursor: pointer;
+    font-size: 13px; transition: all .12s; }
   .modal button:hover { border-color: var(--accent); }
-  .modal button.primary { background: var(--accent); color: #0e0e10;
-    border-color: var(--accent); font-weight: 600; }
-  .modal button.primary:hover { opacity: .9; }
+  .modal button.primary { background: var(--accent); color: var(--accent-fg);
+    border-color: var(--accent); font-weight: 500; }
+  .modal button.primary:hover { background: var(--accent-hover); border-color: var(--accent-hover); }
 </style>
 </head>
 <body>
 
 <div class="app">
-  <!-- ====== LEFT: PROJECTS ====== -->
   <aside class="sidebar">
     <header>
       <div class="logo">H</div>
       <h1>html-video</h1>
-      <span class="v">v0.1</span>
+      <span class="v">v0.2</span>
     </header>
     <button class="new-project" id="btn-new">+ New Project</button>
     <div class="heading">Projects</div>
     <div class="project-list" id="project-list"></div>
   </aside>
 
-  <!-- ====== RIGHT: project detail (asset + template+preview) ====== -->
-  <div class="main" id="main">
+  <main id="main">
     <div class="empty-state">
       <div>
+        <div class="ico">🎬</div>
         <h2>No project selected</h2>
-        <p>Click <b>+ New Project</b> on the left, or pick an existing one.<br>
-        Each project = your assets + a Hyperframes template = one HTML video.</p>
+        <p>Click <b>+ New Project</b> on the left to start. Each project is one video — pick a Hyperframes template, chat with your local agent to fill it with content, preview the HTML live, and export to MP4.</p>
       </div>
     </div>
-  </div>
+  </main>
 </div>
 
 <div class="toast" id="toast"></div>
 
-<!-- ====== Modal ====== -->
 <div class="modal-bg" id="modal-bg">
   <div class="modal">
-    <h2 id="modal-title">New project</h2>
+    <h2>New project</h2>
     <div class="modal-body">
-      <input id="modal-name" placeholder="Project name" />
+      <input id="modal-name" placeholder="Project name" autofocus />
       <input id="modal-intent" placeholder="(optional) one-sentence description" />
     </div>
     <div class="modal-actions">
@@ -258,497 +280,6 @@
   </div>
 </div>
 
-<script type="module">
-const API = {
-  projects: () => fetch('/api/projects').then((r) => r.json()),
-  createProject: (b) => fetch('/api/projects', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(b) }).then((r) => r.json()),
-  getProject: (id) => fetch(`/api/projects/${id}`).then((r) => r.json()),
-  deleteProject: (id) => fetch(`/api/projects/${id}`, { method: 'DELETE' }).then((r) => r.json()),
-  templates: () => fetch('/api/templates').then((r) => r.json()),
-  addAsset: (id, body) => fetch(`/api/projects/${id}/assets`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body) }).then((r) => r.json()),
-  uploadFile: (id, file) => {
-    const fd = new FormData();
-    fd.append('file', file);
-    return fetch(`/api/projects/${id}/assets`, { method: 'POST', body: fd }).then((r) => r.json());
-  },
-  removeAsset: (id, aid) => fetch(`/api/projects/${id}/assets/${aid}`, { method: 'DELETE' }).then((r) => r.json()),
-  setTemplate: (id, tid) => fetch(`/api/projects/${id}/template`, { method: 'PUT', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ template_id: tid }) }).then((r) => r.json()),
-  setVars: (id, vars) => fetch(`/api/projects/${id}/variables`, { method: 'PUT', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ variables: vars }) }).then((r) => r.json()),
-  preview: (id) => fetch(`/api/projects/${id}/preview`, { method: 'POST' }).then((r) => r.json()),
-  exportMp4: (id) => fetch(`/api/projects/${id}/export`, { method: 'POST' }).then((r) => r.json()),
-};
-
-const state = {
-  projects: [],
-  templates: [],
-  selectedId: null,
-  selected: null,
-  previewToken: 0,
-};
-
-let varsSaveTimer = null;
-const debounceVarsSave = () => {
-  clearTimeout(varsSaveTimer);
-  varsSaveTimer = setTimeout(saveVarsAndPreview, 350);
-};
-
-async function refreshProjects() {
-  const r = await API.projects();
-  state.projects = r.projects ?? [];
-  renderSidebar();
-}
-async function refreshTemplates() {
-  const r = await API.templates();
-  state.templates = r.templates ?? [];
-}
-async function selectProject(id) {
-  state.selectedId = id;
-  const r = await API.getProject(id);
-  state.selected = r.project;
-  renderSidebar();
-  renderMain();
-}
-
-function renderSidebar() {
-  const list = document.getElementById('project-list');
-  list.innerHTML = '';
-  if (!state.projects.length) {
-    list.innerHTML = '<div style="padding:14px 16px;color:var(--muted-2);font-size:11px">no projects yet</div>';
-    return;
-  }
-  for (const p of state.projects) {
-    const div = document.createElement('div');
-    div.className = 'project-row' + (p.id === state.selectedId ? ' active' : '');
-    div.innerHTML = `
-      <div class="name">${escapeHtml(p.name)}</div>
-      <div class="meta">
-        <span class="pill ${p.status}">${p.status}</span>
-        ${p.template_id ? `template: ${escapeHtml(p.template_id)}` : 'no template'}
-        · ${p.asset_count} asset${p.asset_count === 1 ? '' : 's'}
-      </div>
-    `;
-    div.onclick = () => selectProject(p.id);
-    list.appendChild(div);
-  }
-}
-
-function renderMain() {
-  const main = document.getElementById('main');
-  if (!state.selected) {
-    main.innerHTML = `<div class="empty-state"><div><h2>No project selected</h2><p>Click <b>+ New Project</b> or pick one from the left.</p></div></div>`;
-    return;
-  }
-  const p = state.selected;
-  main.innerHTML = `
-    <!-- Middle: assets -->
-    <div class="assets-pane">
-      <div class="project-name">
-        <input id="proj-name" value="${escapeAttr(p.name)}" />
-        ${p.intent ? `<div class="intent">${escapeHtml(p.intent)}</div>` : ''}
-      </div>
-      <div class="pane-header">
-        <h2>Assets</h2>
-        <span class="meta">${p.assets.length} item${p.assets.length === 1 ? '' : 's'}</span>
-      </div>
-      <div class="upload-zone" id="upload-zone">
-        Drop files here or
-        <div class="actions">
-          <button id="btn-upload-file">📁 Upload file</button>
-          <button id="btn-upload-text">📝 Add text</button>
-          <button id="btn-upload-data">📊 Add data (JSON)</button>
-        </div>
-        <input type="file" id="file-input" style="display:none" multiple />
-      </div>
-      <div class="asset-list" id="asset-list">${renderAssets(p.assets)}</div>
-    </div>
-
-    <!-- Right: template + preview -->
-    <div class="template-pane">
-      <div class="template-header">
-        <h2>Template</h2>
-        <select id="template-select">
-          <option value="">— pick a template —</option>
-          ${state.templates.map((t) => `<option value="${t.id}" ${t.id === p.templateId ? 'selected' : ''}>${escapeHtml(t.name)} · ${t.engine}</option>`).join('')}
-        </select>
-        <span class="info" id="template-info"></span>
-        <button class="export-btn" id="btn-export" ${p.templateId ? '' : 'disabled'}>Export MP4</button>
-      </div>
-      <div class="work-area">
-        <div class="form-pane" id="form-pane">${p.templateId ? '' : '<div class="empty">Pick a template above to start filling in variables.</div>'}</div>
-        <div class="preview-pane">
-          <div class="frame" id="preview-frame">
-            ${p.templateId ? `<iframe id="preview-iframe" sandbox="allow-scripts" src="about:blank"></iframe>` : `<div class="placeholder"><b>Preview will appear here.</b><br>Pick a template, fill the form, and we'll render the HTML preview live.</div>`}
-          </div>
-          <div class="toolbar">
-            <button class="refresh" id="btn-refresh">↻ Refresh preview</button>
-            <span>status: <b style="color:var(--fg)">${p.status}</b></span>
-            <span style="margin-left:auto">${p.assets.length} asset · ${p.templateId ?? 'no template'}</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  `;
-
-  // Wire up listeners
-  document.getElementById('proj-name').addEventListener('blur', async (e) => {
-    const newName = e.target.value.trim();
-    if (newName && newName !== p.name) {
-      // No dedicated rename API in v0.1; we touch the project via a no-op vars set
-      await API.setVars(p.id, p.variables);
-      toast('Name change isn\'t persisted in v0.1 — coming next', 'error');
-    }
-  });
-  document.getElementById('btn-upload-file').onclick = () => document.getElementById('file-input').click();
-  document.getElementById('file-input').onchange = async (e) => {
-    for (const f of e.target.files) {
-      await API.uploadFile(p.id, f);
-    }
-    await selectProject(p.id);
-    toast(`Added ${e.target.files.length} file(s)`, 'success');
-  };
-  document.getElementById('btn-upload-text').onclick = async () => {
-    const t = prompt('Paste text content:');
-    if (t) {
-      await API.addAsset(p.id, { kind: 'text', content: t });
-      await selectProject(p.id);
-    }
-  };
-  document.getElementById('btn-upload-data').onclick = async () => {
-    const t = prompt('Paste JSON data:');
-    if (t) {
-      try { JSON.parse(t); }
-      catch { toast('Not valid JSON', 'error'); return; }
-      await API.addAsset(p.id, { kind: 'data', content: t });
-      await selectProject(p.id);
-    }
-  };
-
-  // Drag & drop
-  const dz = document.getElementById('upload-zone');
-  dz.addEventListener('dragover', (e) => { e.preventDefault(); dz.classList.add('drag'); });
-  dz.addEventListener('dragleave', () => dz.classList.remove('drag'));
-  dz.addEventListener('drop', async (e) => {
-    e.preventDefault(); dz.classList.remove('drag');
-    for (const f of e.dataTransfer.files) await API.uploadFile(p.id, f);
-    await selectProject(p.id);
-  });
-
-  // Asset row delete
-  for (const btn of document.querySelectorAll('.asset-row .remove')) {
-    btn.onclick = async (e) => {
-      const aid = e.currentTarget.dataset.id;
-      await API.removeAsset(p.id, aid);
-      await selectProject(p.id);
-    };
-  }
-
-  // Template select
-  document.getElementById('template-select').onchange = async (e) => {
-    const tid = e.target.value || null;
-    if (tid) {
-      const r = await API.setTemplate(p.id, tid);
-      state.selected = r.project;
-    }
-    renderMain();
-    if (tid) maybePreview();
-  };
-
-  // Export
-  document.getElementById('btn-export').onclick = async () => {
-    if (!confirm(`Export "${p.name}" to MP4?\n\nIn v0.1 the MP4 is a stub placeholder until the Hyperframes upstream wiring lands. The path is still returned and tracked.`)) return;
-    const r = await API.exportMp4(p.id);
-    if (r.error) { toast('Export failed: ' + r.error, 'error'); return; }
-    state.selected = r.project;
-    toast(`Exported → ${r.output_path}`, 'success');
-    renderMain();
-    refreshProjects();
-  };
-
-  document.getElementById('btn-refresh').onclick = () => maybePreview();
-
-  // Render the form for the picked template + first preview
-  if (p.templateId) {
-    renderForm();
-    maybePreview();
-  }
-
-  // Display template info line
-  if (p.templateId) {
-    const t = state.templates.find((x) => x.id === p.templateId);
-    if (t) {
-      document.getElementById('template-info').textContent = `${t.category} · ${t.license.spdx}`;
-    }
-  }
-}
-
-function renderAssets(assets) {
-  if (!assets.length) {
-    return '<div style="padding:14px;text-align:center;color:var(--muted-2);font-size:11px">No assets yet. Drop a file above to get started.</div>';
-  }
-  return assets.map((a) => {
-    const icon = { image: '📷', text: '📝', data: '📊', audio: '🎵', video: '🎬' }[a.type] ?? '📎';
-    const meta = [a.metadata.filename, formatBytes(a.metadata.sizeBytes ?? 0)].filter(Boolean).join(' · ');
-    return `
-      <div class="asset-row">
-        <div class="icon">${icon}</div>
-        <div class="body">
-          <div class="name">${escapeHtml(a.metadata.filename ?? a.id)}</div>
-          <div class="meta">${escapeHtml(meta)}</div>
-        </div>
-        <button class="remove" data-id="${a.id}" title="Remove">✕</button>
-      </div>
-    `;
-  }).join('');
-}
-
-function renderForm() {
-  const p = state.selected;
-  const t = state.templates.find((x) => x.id === p.templateId);
-  if (!t) { document.getElementById('form-pane').innerHTML = '<div class="empty">Template not found.</div>'; return; }
-  const schema = t.inputs_schema || {};
-  const props = schema.properties || {};
-  const required = new Set(schema.required || []);
-
-  let html = '<h3>Variables</h3>';
-  for (const [key, p_schema] of Object.entries(props)) {
-    html += renderField(key, p_schema, p.variables[key], required.has(key), p.assets);
-  }
-  document.getElementById('form-pane').innerHTML = html;
-
-  // Listeners
-  document.querySelectorAll('[data-field-key]').forEach((el) => {
-    el.addEventListener('input', () => debounceVarsSave());
-    el.addEventListener('blur', () => debounceVarsSave());
-    el.addEventListener('change', () => debounceVarsSave());
-  });
-  document.querySelectorAll('[data-add-row]').forEach((el) => {
-    el.onclick = () => {
-      const key = el.dataset.addRow;
-      const val = collectVars();
-      const cur = Array.isArray(val[key]) ? val[key] : [];
-      cur.push({ label: '', value: 0 });
-      val[key] = cur;
-      state.selected.variables = val;
-      renderForm();
-      debounceVarsSave();
-    };
-  });
-  document.querySelectorAll('[data-rm-row]').forEach((el) => {
-    el.onclick = () => {
-      const [key, idx] = el.dataset.rmRow.split('|');
-      const val = collectVars();
-      val[key] = (val[key] || []).filter((_, i) => i !== Number(idx));
-      state.selected.variables = val;
-      renderForm();
-      debounceVarsSave();
-    };
-  });
-}
-
-function renderField(key, schema, value, required, assets) {
-  const desc = schema.description ?? '';
-  const reqMark = required ? '<span class="req">*</span>' : '';
-  const labelHtml = `<label>${escapeHtml(key)}${reqMark}${desc ? `<span class="desc">${escapeHtml(desc)}</span>` : ''}</label>`;
-
-  // Asset picker for *_path keys
-  if (schema.type === 'string' && /(_path|^image$|^logo$|^bgm$)/.test(key)) {
-    const wantedType = key.includes('audio') || key.includes('bgm') ? 'audio'
-      : key.includes('video') ? 'video'
-      : 'image';
-    const filtered = assets.filter((a) => a.type === wantedType);
-    return `
-      <div class="field">
-        ${labelHtml}
-        <div class="asset-pick">
-          <select data-field-key="${key}" data-field-kind="asset-path">
-            <option value="">— pick from assets —</option>
-            ${filtered.map((a) => `<option value="${escapeAttr(a.path ?? '')}" ${value === a.path ? 'selected' : ''}>${escapeHtml(a.metadata.filename ?? a.id)}</option>`).join('')}
-          </select>
-        </div>
-      </div>
-    `;
-  }
-
-  if (schema.type === 'string' && schema.enum) {
-    return `
-      <div class="field">
-        ${labelHtml}
-        <select data-field-key="${key}" data-field-kind="string">
-          ${schema.enum.map((v) => `<option value="${escapeAttr(v)}" ${value === v ? 'selected' : ''}>${escapeHtml(v)}</option>`).join('')}
-        </select>
-      </div>
-    `;
-  }
-
-  if (schema.type === 'string') {
-    const long = (schema.maxLength ?? 0) > 100;
-    const v = value ?? schema.default ?? '';
-    return `
-      <div class="field">
-        ${labelHtml}
-        ${long
-          ? `<textarea data-field-key="${key}" data-field-kind="string">${escapeHtml(v)}</textarea>`
-          : `<input type="text" data-field-key="${key}" data-field-kind="string" value="${escapeAttr(v)}" />`}
-      </div>
-    `;
-  }
-
-  if (schema.type === 'number') {
-    const v = value ?? schema.default ?? '';
-    const min = schema.minimum != null ? `min="${schema.minimum}"` : '';
-    const max = schema.maximum != null ? `max="${schema.maximum}"` : '';
-    return `
-      <div class="field">
-        ${labelHtml}
-        <input type="number" step="any" ${min} ${max} data-field-key="${key}" data-field-kind="number" value="${escapeAttr(v)}" />
-      </div>
-    `;
-  }
-
-  if (schema.type === 'boolean') {
-    return `
-      <div class="field">
-        ${labelHtml}
-        <select data-field-key="${key}" data-field-kind="boolean">
-          <option value="false" ${!value ? 'selected' : ''}>No</option>
-          <option value="true" ${value ? 'selected' : ''}>Yes</option>
-        </select>
-      </div>
-    `;
-  }
-
-  if (schema.type === 'array' && schema.items?.type === 'object') {
-    const itemProps = schema.items.properties || {};
-    const arr = Array.isArray(value) ? value : [];
-    const cols = Object.keys(itemProps);
-    return `
-      <div class="field">
-        ${labelHtml}
-        <div class="table-rows">
-          ${arr.map((row, i) => `
-            <div class="table-row">
-              ${cols.map((c) => `<input data-field-key="${key}" data-field-kind="array-cell" data-row="${i}" data-col="${c}" placeholder="${escapeAttr(c)}" value="${escapeAttr(row?.[c] ?? '')}" />`).join('')}
-              <button class="rm" data-rm-row="${key}|${i}" title="Remove row">✕</button>
-            </div>
-          `).join('')}
-        </div>
-        <button class="add-row" data-add-row="${key}">+ Add row</button>
-      </div>
-    `;
-  }
-
-  // Fallback: JSON textarea
-  const v = value !== undefined ? JSON.stringify(value, null, 2) : '';
-  return `
-    <div class="field">
-      ${labelHtml}
-      <textarea data-field-key="${key}" data-field-kind="json">${escapeHtml(v)}</textarea>
-    </div>
-  `;
-}
-
-function collectVars() {
-  const out = { ...(state.selected?.variables ?? {}) };
-  // Reset arrays handled by add/rm row above; for the rest, read inputs
-  const grouped = {};
-  document.querySelectorAll('[data-field-key]').forEach((el) => {
-    const k = el.dataset.fieldKey;
-    const kind = el.dataset.fieldKind;
-    if (kind === 'array-cell') {
-      const row = Number(el.dataset.row), col = el.dataset.col;
-      grouped[k] = grouped[k] || [];
-      grouped[k][row] = grouped[k][row] || {};
-      let v = el.value;
-      // Auto-coerce numeric-looking values for `value` columns
-      if (col === 'value' && v !== '' && !Number.isNaN(Number(v))) v = Number(v);
-      grouped[k][row][col] = v;
-    } else if (kind === 'number') {
-      const v = el.value;
-      out[k] = v === '' ? undefined : Number(v);
-    } else if (kind === 'boolean') {
-      out[k] = el.value === 'true';
-    } else if (kind === 'json') {
-      try { out[k] = el.value === '' ? undefined : JSON.parse(el.value); }
-      catch { /* keep raw string under same key */ out[k] = el.value; }
-    } else if (kind === 'asset-path') {
-      out[k] = el.value || undefined;
-    } else {
-      out[k] = el.value;
-    }
-  });
-  for (const [k, v] of Object.entries(grouped)) out[k] = v;
-  return out;
-}
-
-async function saveVarsAndPreview() {
-  if (!state.selected) return;
-  const vars = collectVars();
-  const r = await API.setVars(state.selected.id, vars);
-  state.selected = r.project;
-  await maybePreview();
-}
-
-async function maybePreview() {
-  if (!state.selected || !state.selected.templateId) return;
-  const myToken = ++state.previewToken;
-  const r = await API.preview(state.selected.id);
-  if (myToken !== state.previewToken) return;
-  if (r.error) { toast('Preview failed: ' + r.error, 'error'); return; }
-  state.selected = r.project;
-  const iframe = document.getElementById('preview-iframe');
-  if (iframe) {
-    iframe.src = `/preview/${state.selected.id}?t=${Date.now()}`;
-  }
-  await refreshProjects();
-}
-
-// ===== Modal =====
-function openModal() { document.getElementById('modal-bg').classList.add('show');
-  document.getElementById('modal-name').focus(); }
-function closeModal() { document.getElementById('modal-bg').classList.remove('show');
-  document.getElementById('modal-name').value = ''; document.getElementById('modal-intent').value = ''; }
-document.getElementById('btn-new').onclick = openModal;
-document.getElementById('modal-cancel').onclick = closeModal;
-document.getElementById('modal-ok').onclick = async () => {
-  const name = document.getElementById('modal-name').value.trim();
-  const intent = document.getElementById('modal-intent').value.trim();
-  if (!name) { toast('Name is required', 'error'); return; }
-  const r = await API.createProject({ name, ...(intent && { intent }) });
-  closeModal();
-  await refreshProjects();
-  await selectProject(r.project.id);
-  toast(`Created "${name}"`, 'success');
-};
-document.getElementById('modal-bg').addEventListener('click', (e) => {
-  if (e.target.id === 'modal-bg') closeModal();
-});
-
-// ===== Toast =====
-function toast(msg, kind = '') {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.className = `toast show ${kind}`;
-  setTimeout(() => t.classList.remove('show'), 2500);
-}
-
-// ===== Helpers =====
-function escapeHtml(s) {
-  return String(s ?? '').replace(/[&<>"']/g, (c) =>
-    ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
-}
-function escapeAttr(s) { return escapeHtml(s); }
-function formatBytes(n) {
-  if (n < 1024) return n + ' B';
-  if (n < 1024 ** 2) return (n / 1024).toFixed(1) + ' KB';
-  return (n / 1024 ** 2).toFixed(1) + ' MB';
-}
-
-// ===== Boot =====
-(async function init() {
-  await refreshTemplates();
-  await refreshProjects();
-})();
-</script>
-
+<script type="module" src="/app.js"></script>
 </body>
 </html>

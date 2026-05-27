@@ -12,6 +12,7 @@ import { fileURLToPath } from 'node:url';
 import { tmpdir } from 'node:os';
 import type { CliContext } from './context.js';
 import { AssetStore } from '@html-video/core';
+import { detectAll, findAgent, spawnAgent } from '@html-video/runtime';
 
 interface StudioHandle {
   url: string;
@@ -191,6 +192,72 @@ export async function startStudioServer(ctx: CliContext, port: number): Promise<
         return json(res, 200, { project, output_path: outputPath });
       }
 
+      // Agents (detected on each call; cheap)
+      if (url.pathname === '/api/agents' && m === 'GET') {
+        const agents = await detectAll();
+        return json(res, 200, { agents });
+      }
+
+      // Messages: GET history (in-memory only v0.2)
+      const msgsMatch = url.pathname.match(/^\/api\/projects\/([^/]+)\/messages$/);
+      if (msgsMatch && msgsMatch[1] && m === 'GET') {
+        const arr = MESSAGES.get(msgsMatch[1]) ?? [];
+        return json(res, 200, { messages: arr });
+      }
+
+      // Messages: POST = send + stream agent reply via SSE
+      if (msgsMatch && msgsMatch[1] && m === 'POST') {
+        const id = msgsMatch[1];
+        const body = await readBody(req);
+        const userText = (body.content as string) ?? '';
+        if (!userText) return json(res, 400, { error: 'content required' });
+
+        const project = await ctx.orchestrator.load(id);
+        const tmpl = project.templateId ? ctx.templates.get(project.templateId) : null;
+        const agentDef = findAgent('claude');
+        if (!agentDef) return json(res, 400, { error: 'claude agent not registered' });
+
+        // Append user message to history
+        const history = MESSAGES.get(id) ?? [];
+        history.push({ role: 'user', content: userText, ts: Date.now() });
+        MESSAGES.set(id, history);
+
+        // Compose system prompt with project context
+        const systemContext = renderSystemContext(project, tmpl);
+        const fullPrompt = `${systemContext}\n\n${userText}`;
+
+        // SSE response
+        res.writeHead(200, {
+          'content-type': 'text/event-stream; charset=utf-8',
+          'cache-control': 'no-cache',
+          connection: 'keep-alive',
+        });
+        const projectDir = await ctx.projects.ensureDir(id);
+        let assistantText = '';
+        const handle = spawnAgent({
+          def: agentDef,
+          prompt: fullPrompt,
+          context: { cwd: projectDir },
+          onEvent: (ev) => {
+            if (ev.type === 'text') {
+              assistantText += ev.chunk;
+            }
+            res.write(`data: ${JSON.stringify(ev)}\n\n`);
+          },
+        });
+        await handle.done;
+        // Persist assistant message to history
+        history.push({
+          role: 'assistant',
+          agent: 'claude',
+          content: assistantText,
+          ts: Date.now(),
+        });
+        MESSAGES.set(id, history);
+        res.end();
+        return;
+      }
+
       // ============== File serving ==============
 
       // Project preview HTML (and any sibling files like assets/)
@@ -346,3 +413,37 @@ async function receiveMultipartFile(
 // Keep TS aware that copyFile / AssetStore are used somewhere (they're indirectly via orchestrator)
 void copyFile;
 void AssetStore;
+
+// ---------------------------------------------------------------------------
+// In-memory message history (v0.2 — persistence in v0.3)
+// ---------------------------------------------------------------------------
+
+interface ChatMessage {
+  role: 'user' | 'assistant' | 'system' | 'tool';
+  content: string;
+  agent?: string;
+  tool?: string;
+  output?: unknown;
+  ts: number;
+}
+
+const MESSAGES = new Map<string, ChatMessage[]>();
+
+function renderSystemContext(
+  project: import('@html-video/core').Project,
+  tmpl: import('@html-video/core').TemplateMetadata | null,
+): string {
+  const lines: string[] = [];
+  lines.push(`You are an agent helping the user fill in a Hyperframes video template.`);
+  lines.push(`Project: "${project.name}" (${project.assets.length} assets)`);
+  if (tmpl) {
+    lines.push(`Template: ${tmpl.name} (id=${tmpl.id})`);
+    lines.push(`  description: ${tmpl.description}`);
+    lines.push(`  required vars: ${JSON.stringify((tmpl.inputs.schema as { required?: string[] }).required ?? [])}`);
+    lines.push(`Current variables: ${JSON.stringify(project.variables)}`);
+    lines.push(`Help the user complete the variables. When you suggest values, format them so the user can apply them. Keep replies concise.`);
+  } else {
+    lines.push(`No template selected yet. Help the user pick one from the dropdown.`);
+  }
+  return lines.join('\n');
+}
