@@ -41,13 +41,33 @@ html-video/
 
 代码骨架（adapter spec、CLI、studio 等）等架构定型后另起 `core/` `adapters/` `cli/` `studio/` 等目录。
 
-## 当前状态（2026-05-26）
+## 当前状态（2026-05-27 v0.1 skeleton）
 
-- ✅ 项目目录骨架建好（notes/ research/ assets/）
-- ✅ README.md（公开门面）+ LICENSE（Apache-2.0）+ CLAUDE.md（本文件）
-- ✅ git init 完成 main 分支首次 commit（无远端）
+- ✅ 项目目录骨架（notes/ research/ assets/ packages/ templates/）
+- ✅ 4 份 RFC（engine adapter / template metadata / agent skill / storyboard workflow）+ foundation decisions log
+- ✅ pnpm workspace monorepo + tsconfig + biome
+- ✅ `@html-video/core`：Asset/Bundle/Storyboard/Scene 类型 + EngineRegistry/TemplateRegistry/BundleStore/StoryboardStore + StoryboardOrchestrator + AssetStore
+- ✅ `@html-video/adapter-hyperframes`：capabilities + validate(真实) + render/renderToHtml(stub)
+- ✅ `@html-video/cli`：doctor / list-engines / search-templates / inspect-template / assets upload / storyboard generate/edit/preview/render + 内置 planner（v0.1 启发式）+ HTTP preview server
+- ✅ `@html-video/storyboard-ui`：纯静态 HTML/JS（timeline + scene grid + inline edit + iframe preview）
+- ✅ 5 reference templates：intro-logo-reveal / data-bar-chart / image-pan-ken-burns / text-card-quote / outro-cta（每个含 metadata YAML + HF source）
+- ✅ End-to-end smoke test（`pnpm --filter @html-video/cli smoke`）：bootstrap → bundle → planner emits 4 scenes → storyboard generate → preview HTMLs render → edit → approve → render stub MP4
 - ⏳ 还没建 GitHub repo（等 Joey 拍板时机再推到 nexu-io org）
-- ⏳ 还没写代码
+- ⏳ HF upstream 真实 render（v0.2）：替换 adapter-hyperframes 里的 stub，接 hyperframes npm 包做帧渲染
+- ⏳ ffmpeg concat（v0.2）：把 scene MP4 真正拼成最终视频
+
+## 跑起来
+
+```bash
+cd ~/Desktop/claude-code/projects/html-video
+pnpm install
+pnpm -r build
+pnpm --filter @html-video/cli smoke
+
+# CLI 直接跑
+./packages/cli/dist/bin.js doctor
+./packages/cli/dist/bin.js search-templates --intent "github stars" --top 3
+```
 
 ## 与姊妹项目的关系
 

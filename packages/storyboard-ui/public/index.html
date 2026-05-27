@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>html-video · Storyboard Preview</title>
+<style>
+  :root {
+    --bg: #0e0e10;
+    --panel: #16161a;
+    --panel-2: #1c1c22;
+    --border: #2a2a32;
+    --fg: #f5f5f5;
+    --muted: #8a8a92;
+    --accent: #ffb84d;
+    --good: #6dd99c;
+    --warn: #ff8a4d;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--bg); color: var(--fg);
+    font-family: 'Inter', system-ui, sans-serif; min-height: 100vh; }
+  body { display: grid; grid-template-rows: auto 1fr auto; min-height: 100vh; }
+
+  header { display: flex; align-items: center; gap: 2em; padding: 1em 2em;
+    border-bottom: 1px solid var(--border); background: var(--panel); }
+  header h1 { font-size: 18px; font-weight: 600; letter-spacing: .02em; }
+  header h1 .v { color: var(--muted); font-weight: 400; font-size: 13px; margin-left: .5em; }
+  header .sb-meta { color: var(--muted); font-size: 13px; flex: 1; }
+  header .sb-meta b { color: var(--fg); }
+  header .actions { display: flex; gap: .8em; }
+  header button { background: var(--panel-2); color: var(--fg); border: 1px solid var(--border);
+    padding: .5em 1.2em; border-radius: 4px; cursor: pointer; font-size: 13px;
+    font-family: inherit; transition: all .15s; }
+  header button:hover { border-color: var(--accent); }
+  header button.primary { background: var(--accent); color: #1a1a1a; border-color: var(--accent); font-weight: 600; }
+
+  main { display: grid; grid-template-columns: 1fr 360px; min-height: 0; }
+
+  .timeline-panel { padding: 1.5em 2em; overflow-y: auto; }
+  .timeline-panel h2 { font-size: 13px; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 1em; }
+  .scene-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.2em; }
+  .scene-card { background: var(--panel); border: 1px solid var(--border);
+    border-radius: 6px; overflow: hidden; cursor: pointer; transition: all .15s; }
+  .scene-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+  .scene-card.active { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
+  .scene-card .preview { aspect-ratio: 16/9; background: #000; position: relative; }
+  .scene-card .preview iframe,
+  .scene-card .preview img { width: 100%; height: 100%; border: 0; display: block; }
+  .scene-card .meta { padding: .9em 1em; }
+  .scene-card .meta .row { display: flex; align-items: baseline; gap: .8em; }
+  .scene-card .meta .idx { font-family: 'JetBrains Mono', monospace; font-size: 11px;
+    color: var(--muted); letter-spacing: .12em; }
+  .scene-card .meta .dur { font-family: 'JetBrains Mono', monospace; font-size: 12px;
+    color: var(--accent); margin-left: auto; }
+  .scene-card .meta .name { font-size: 14px; font-weight: 500; margin-top: .3em; }
+  .scene-card .meta .note { font-size: 12px; color: var(--muted); margin-top: .4em; line-height: 1.4; }
+
+  .timeline-bar { margin-top: 1.5em; padding: 1em; background: var(--panel);
+    border: 1px solid var(--border); border-radius: 4px; }
+  .timeline-bar .track { display: flex; height: 36px; border-radius: 3px; overflow: hidden;
+    background: var(--panel-2); }
+  .timeline-bar .seg { background: linear-gradient(180deg, #ffb84d, #ff8a4d);
+    border-right: 1px solid var(--bg); display: flex; align-items: center;
+    justify-content: center; font-family: 'JetBrains Mono', monospace; font-size: 10px;
+    color: #1a1a1a; cursor: pointer; }
+  .timeline-bar .seg:nth-child(2n) { background: linear-gradient(180deg, #6dd99c, #4dbb88); }
+  .timeline-bar .ts { display: flex; justify-content: space-between; margin-top: .6em;
+    color: var(--muted); font-family: 'JetBrains Mono', monospace; font-size: 11px; }
+
+  aside { background: var(--panel); border-left: 1px solid var(--border);
+    padding: 1.5em; overflow-y: auto; }
+  aside h2 { font-size: 13px; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 1em; }
+  aside .empty { color: var(--muted); font-size: 13px; line-height: 1.6; padding: 2em 0; }
+  aside section { margin-bottom: 1.5em; }
+  aside section h3 { font-size: 11px; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--muted); margin-bottom: .6em; }
+  aside section .field { margin-bottom: .6em; }
+  aside section .field label { display: block; font-size: 11px; color: var(--muted);
+    margin-bottom: .25em; }
+  aside section .field input,
+  aside section .field textarea { width: 100%; background: var(--panel-2);
+    border: 1px solid var(--border); color: var(--fg); padding: .5em .7em;
+    border-radius: 3px; font-family: inherit; font-size: 13px; }
+  aside section .field textarea { font-family: 'JetBrains Mono', monospace; font-size: 12px;
+    min-height: 120px; resize: vertical; }
+  aside button { background: var(--panel-2); color: var(--fg); border: 1px solid var(--border);
+    padding: .5em 1em; border-radius: 3px; cursor: pointer; font-size: 12px; }
+  aside button:hover { border-color: var(--accent); }
+  aside .danger { border-color: var(--warn); color: var(--warn); }
+  aside .row-buttons { display: flex; gap: .5em; flex-wrap: wrap; }
+
+  footer { padding: .8em 2em; border-top: 1px solid var(--border);
+    background: var(--panel); color: var(--muted); font-size: 11px;
+    font-family: 'JetBrains Mono', monospace; display: flex; justify-content: space-between; }
+  footer .approve-status { color: var(--good); }
+  footer .approve-status.pending { color: var(--warn); }
+
+  .modal-bg { position: fixed; inset: 0; background: rgba(0,0,0,.7); display: none;
+    align-items: center; justify-content: center; z-index: 100; }
+  .modal-bg.show { display: flex; }
+  .modal { background: var(--panel); border: 1px solid var(--border); border-radius: 6px;
+    width: 80vw; max-width: 1280px; height: 80vh; display: flex; flex-direction: column; }
+  .modal header { background: var(--panel-2); padding: .8em 1.2em; flex: 0 0 auto; }
+  .modal iframe { flex: 1; border: 0; background: #000; width: 100%; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>html-video <span class="v">storyboard preview · v0.1</span></h1>
+  <div class="sb-meta" id="sb-meta">Loading…</div>
+  <div class="actions">
+    <button id="btn-refresh">Refresh</button>
+    <button id="btn-approve" class="primary">Approve & Render</button>
+  </div>
+</header>
+
+<main>
+  <section class="timeline-panel">
+    <h2>Scenes</h2>
+    <div class="scene-grid" id="scene-grid"></div>
+
+    <div class="timeline-bar">
+      <div class="track" id="track"></div>
+      <div class="ts">
+        <span>00:00</span>
+        <span id="total-ts">00:00</span>
+      </div>
+    </div>
+  </section>
+
+  <aside id="aside">
+    <div class="empty">Click any scene card to inspect or edit it here.</div>
+  </aside>
+</main>
+
+<footer>
+  <span id="status">Ready</span>
+  <span class="approve-status pending" id="approve-status">Status: ready-for-review</span>
+</footer>
+
+<div class="modal-bg" id="modal-bg">
+  <div class="modal">
+    <header style="display: flex; justify-content: space-between; align-items: center;">
+      <span id="modal-title" style="font-size: 14px;"></span>
+      <button id="modal-close">Close</button>
+    </header>
+    <iframe id="modal-iframe" src="about:blank"></iframe>
+  </div>
+</div>
+
+<script>
+  // The CLI preview server injects the storyboard JSON at /api/storyboard.
+  // For this static demo, we fall back to a hard-coded fixture so the UI
+  // renders even if served standalone.
+  const FIXTURE = {
+    id: 'sb_demo',
+    intent: 'Demo storyboard',
+    estimatedDurationSec: 24,
+    status: 'ready-for-review',
+    scenes: [
+      { id: 's000', template: { id: 'intro-logo-reveal', engine: 'hyperframes' },
+        startSec: 0, durationSec: 4, agentNote: 'Brand intro',
+        previewHtmlPath: '/preview/s000.html', variables: {} },
+      { id: 's001', template: { id: 'data-bar-chart', engine: 'hyperframes' },
+        startSec: 4, durationSec: 10, agentNote: 'Show comparison',
+        previewHtmlPath: '/preview/s001.html', variables: {} },
+      { id: 's002', template: { id: 'text-card-quote', engine: 'hyperframes' },
+        startSec: 14, durationSec: 5, agentNote: 'Manifesto line',
+        previewHtmlPath: '/preview/s002.html', variables: {} },
+      { id: 's003', template: { id: 'outro-cta', engine: 'hyperframes' },
+        startSec: 19, durationSec: 5, agentNote: 'CTA',
+        previewHtmlPath: '/preview/s003.html', variables: {} },
+    ],
+  };
+
+  let storyboard = null;
+  let activeSceneId = null;
+
+  async function load() {
+    try {
+      const r = await fetch('/api/storyboard');
+      if (r.ok) { storyboard = await r.json(); return; }
+    } catch (_) {}
+    storyboard = FIXTURE;
+    document.getElementById('status').textContent = 'Standalone fixture mode (no CLI server)';
+  }
+
+  function fmtTs(secs) {
+    const m = Math.floor(secs / 60);
+    const s = Math.floor(secs % 60);
+    return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+  }
+
+  function render() {
+    const meta = document.getElementById('sb-meta');
+    meta.innerHTML = `<b>${storyboard.id}</b> · ${storyboard.scenes.length} scenes · `
+      + `<b>${fmtTs(storyboard.estimatedDurationSec)}</b> total · "${storyboard.intent}"`;
+
+    const status = document.getElementById('approve-status');
+    status.textContent = 'Status: ' + storyboard.status;
+    status.classList.toggle('pending', storyboard.status === 'ready-for-review' || storyboard.status === 'draft');
+
+    const grid = document.getElementById('scene-grid');
+    grid.innerHTML = '';
+    storyboard.scenes.forEach((s, i) => {
+      const card = document.createElement('div');
+      card.className = 'scene-card' + (s.id === activeSceneId ? ' active' : '');
+      card.dataset.id = s.id;
+      card.innerHTML = `
+        <div class="preview"><iframe src="${escapeAttr(s.previewHtmlPath)}" loading="lazy"
+          sandbox="allow-scripts" scrolling="no"></iframe></div>
+        <div class="meta">
+          <div class="row">
+            <span class="idx">${String(i + 1).padStart(2, '0')} / ${storyboard.scenes.length}</span>
+            <span class="dur">${s.durationSec.toFixed(1)}s</span>
+          </div>
+          <div class="name">${escapeHtml(s.template.id)}</div>
+          <div class="note">${escapeHtml(s.agentNote || '')}</div>
+        </div>
+      `;
+      card.onclick = (e) => {
+        if (e.target.tagName === 'IFRAME') return;
+        if (e.detail === 2) openModal(s);
+        else selectScene(s.id);
+      };
+      grid.appendChild(card);
+    });
+
+    const track = document.getElementById('track');
+    track.innerHTML = '';
+    const total = storyboard.estimatedDurationSec || 1;
+    storyboard.scenes.forEach((s, i) => {
+      const seg = document.createElement('div');
+      seg.className = 'seg';
+      seg.style.flex = `${s.durationSec} 0 0`;
+      seg.title = `${s.template.id} · ${s.durationSec}s`;
+      seg.textContent = String(i + 1);
+      seg.onclick = () => selectScene(s.id);
+      track.appendChild(seg);
+    });
+    document.getElementById('total-ts').textContent = fmtTs(total);
+  }
+
+  function selectScene(id) {
+    activeSceneId = id;
+    const s = storyboard.scenes.find((x) => x.id === id);
+    if (!s) return;
+    const aside = document.getElementById('aside');
+    aside.innerHTML = `
+      <h2>Scene · ${escapeHtml(s.id)}</h2>
+      <section>
+        <h3>Template</h3>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:13px">${escapeHtml(s.template.id)}</div>
+        <div style="color:var(--muted);font-size:11px;margin-top:.3em">engine: ${escapeHtml(s.template.engine)}</div>
+      </section>
+      <section>
+        <h3>Agent note</h3>
+        <div style="font-size:13px;line-height:1.55">${escapeHtml(s.agentNote || '(none)')}</div>
+      </section>
+      <section>
+        <h3>Duration (seconds)</h3>
+        <div class="field">
+          <input type="number" id="dur-input" min="0.5" max="60" step="0.5" value="${s.durationSec}" />
+        </div>
+        <button id="btn-set-dur">Update duration</button>
+      </section>
+      <section>
+        <h3>Variables (JSON)</h3>
+        <div class="field">
+          <textarea id="vars-input">${escapeHtml(JSON.stringify(s.variables, null, 2))}</textarea>
+        </div>
+      </section>
+      <section>
+        <h3>Actions</h3>
+        <div class="row-buttons">
+          <button onclick="openModal(storyboard.scenes.find(x=>x.id==='${s.id}'))">Fullscreen</button>
+          <button class="danger" id="btn-remove">Remove scene</button>
+        </div>
+      </section>
+    `;
+    document.getElementById('btn-set-dur').onclick = async () => {
+      const v = parseFloat(document.getElementById('dur-input').value);
+      await postCmd('/api/edit', { op: 'set-duration', sceneId: s.id, durationSec: v });
+    };
+    document.getElementById('btn-remove').onclick = async () => {
+      if (!confirm(`Remove scene ${s.id}?`)) return;
+      await postCmd('/api/edit', { op: 'remove-scene', sceneId: s.id });
+    };
+    render();
+  }
+
+  async function postCmd(url, body) {
+    try {
+      const r = await fetch(url, { method: 'POST', headers: { 'content-type': 'application/json' },
+        body: JSON.stringify(body) });
+      const data = await r.json();
+      if (data.storyboard) storyboard = data.storyboard;
+      document.getElementById('status').textContent = `OK · ${body.op}`;
+      render();
+    } catch (e) {
+      document.getElementById('status').textContent = 'Error: ' + e.message;
+    }
+  }
+
+  function openModal(s) {
+    document.getElementById('modal-title').textContent = `${s.template.id} · ${s.durationSec.toFixed(1)}s`;
+    document.getElementById('modal-iframe').src = s.previewHtmlPath;
+    document.getElementById('modal-bg').classList.add('show');
+  }
+  document.getElementById('modal-close').onclick = () => {
+    document.getElementById('modal-bg').classList.remove('show');
+    document.getElementById('modal-iframe').src = 'about:blank';
+  };
+
+  document.getElementById('btn-refresh').onclick = async () => { await load(); render(); };
+  document.getElementById('btn-approve').onclick = async () => {
+    if (!confirm('Approve this storyboard and start MP4 render?')) return;
+    await postCmd('/api/approve-and-render', {});
+  };
+
+  function escapeHtml(s) { return String(s).replace(/[&<>"']/g, (c) =>
+    ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]); }
+  function escapeAttr(s) { return escapeHtml(s); }
+
+  load().then(render);
+</script>
+</body>
+</html>

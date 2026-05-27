@@ -1,0 +1,8 @@
+{
+  "name": "@html-video/template-text-card-quote",
+  "version": "0.1.0",
+  "description": "html-video template: text-card-quote",
+  "license": "Apache-2.0",
+  "private": true,
+  "files": ["template.html-video.yaml", "source", "preview.png", "README.md"]
+}

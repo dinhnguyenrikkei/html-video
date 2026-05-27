@@ -1,0 +1,93 @@
+spec_version: 1
+id: image-pan-ken-burns
+name: Image Pan (Ken Burns)
+description: >
+  Cinematic slow zoom + pan over a still image (Ken Burns effect).
+  Best for hero photography, architecture shots, product close-ups.
+
+engine: hyperframes
+engine_version: ^0.4.0
+source_entry: source/index.html
+
+category: ambient
+subcategory: image-motion
+tags: [photo, image, ken-burns, pan, zoom, b-roll]
+
+best_for:
+  - "Single still image needs visual life"
+  - "Storyboard transitions between scenes"
+  - "Documentary / b-roll style overlays"
+
+not_for:
+  - "Multiple images in fast cut — needs separate scene per image"
+
+output:
+  formats: [mp4, webm]
+  default_format: mp4
+  resolution:
+    default: { width: 1920, height: 1080 }
+    supported_aspects: ["16:9", "9:16", "1:1"]
+  fps:
+    default: 60
+    supported: [30, 60]
+  duration:
+    type: variable
+    min_sec: 3
+    max_sec: 15
+  alpha: false
+  audio:
+    supported: true
+    expected_inputs: [bgm]
+
+inputs:
+  schema:
+    type: object
+    required: [image_path]
+    properties:
+      image_path:
+        type: string
+        description: Absolute path to the source image
+      caption:
+        type: string
+        description: Optional bottom-third caption
+        maxLength: 200
+      pan_direction:
+        type: string
+        enum: [zoom-in, zoom-out, pan-left, pan-right, pan-up, pan-down, diagonal]
+        default: zoom-in
+      duration_sec:
+        type: number
+        minimum: 3
+        maximum: 15
+        default: 6
+  examples:
+    - image_path: /tmp/hero.jpg
+      caption: "Pudong International Talent Hub · Shanghai"
+      pan_direction: zoom-in
+      duration_sec: 6
+
+license:
+  spdx: Apache-2.0
+  attribution_required: false
+  redistribution_allowed: true
+  commercial_use: true
+
+author:
+  name: nexu-io
+  url: https://github.com/nexu-io
+  contact: open-design@nexu.io
+
+version: 0.1.0
+changelog:
+  - version: 0.1.0
+    date: 2026-05-26
+    notes: Initial scaffold
+
+preview:
+  poster: preview.png
+
+performance:
+  reference_render:
+    duration_sec: 6
+    render_wall_clock_sec: 11
+    machine: "M2 MacBook Air"
