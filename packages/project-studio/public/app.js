@@ -1119,7 +1119,7 @@ function attachTextEditOverlay(iframe) {
     el.removeAttribute('contenteditable');
     if (!dirty) return;
     dirty = false;
-    await commitTextEdits(iframe);
+    await commitInlineTextEdits(iframe);
   };
 
   doc.addEventListener('click', (e) => {
@@ -1148,7 +1148,7 @@ function attachTextEditOverlay(iframe) {
   }, true);
 }
 
-async function commitTextEdits(iframe) {
+async function commitInlineTextEdits(iframe) {
   if (!state.selected) return;
   const projectId = state.selected.id;
   const fid = state.activeFrameId;
@@ -1675,4 +1675,16 @@ function esc(s) {
     ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
 }
 
-init();
+window.addEventListener('error', (e) => {
+  console.error('[hv-studio] uncaught:', e.error || e.message);
+  try { toast(`错误：${e.error?.message || e.message}`, 'error'); } catch {}
+});
+window.addEventListener('unhandledrejection', (e) => {
+  console.error('[hv-studio] unhandled rejection:', e.reason);
+  try { toast(`错误：${e.reason?.message || e.reason}`, 'error'); } catch {}
+});
+init().catch((e) => {
+  console.error('[hv-studio] init failed:', e);
+  try { toast(`init 失败：${e.message}`, 'error'); } catch {}
+});
+
