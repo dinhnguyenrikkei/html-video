@@ -745,14 +745,29 @@ function buildHtmlGenerationPrompt(args: BuildPromptArgs): string {
   const baseHtml = priorHtml && priorHtml !== exampleHtml ? priorHtml : exampleHtml;
   const isFirstTurn = history.filter((m) => m.role === 'user').length <= 1;
 
-  // Detect "user is answering an hv-options card from the previous turn".
-  // Without this signal the agent re-runs its draft-vs-ask decision tree on
-  // a 4-character reply ("故障感预告片") and silently does neither, returning
-  // an empty string. When we know the answer, force-pick path B (draft) and
-  // tell the agent exactly which option the user took.
-  const lastAssistant = [...history].reverse().find((m) => m.role === 'assistant');
-  const prevHadOptions = !!lastAssistant && /```hv-options\s*\n[\s\S]*?```/i.test(lastAssistant.content);
-  const answeringOptions = prevHadOptions && !isFirstTurn;
+  // Detect "user is answering an hv-options card".
+  //
+  // Subtlety: a previous empty/failed assistant turn means the latest
+  // assistant message has no hv-options block, but the relevant card is
+  // one turn earlier. So we scan back for the most recent assistant that
+  // DID emit options, and only treat it as "active" if no later user turn
+  // already replied to a draft (i.e. agent didn't successfully produce HTML
+  // since then — the card is still the live question).
+  const optionsBlock = /```hv-options\s*\n[\s\S]*?```/i;
+  let cardAssistant: ChatMessage | null = null;
+  for (let i = history.length - 1; i >= 0; i--) {
+    const m = history[i]!;
+    if (m.role !== 'assistant') continue;
+    if (optionsBlock.test(m.content)) {
+      cardAssistant = m;
+      break;
+    }
+    // If we hit an assistant turn that DID produce content (HTML / graph
+    // summary lines) before finding a card, the card has been resolved.
+    const hasContent = /```html|```json#content-graph|✓\s/i.test(m.content);
+    if (hasContent) break;
+  }
+  const answeringOptions = !!cardAssistant && !isFirstTurn;
 
   // Heuristic: a "concrete" first turn (≥ 8 words OR mentions a brand/product/topic
   // word) gets the direct-draft path. A short / vague turn gets the explorer path.
@@ -770,7 +785,7 @@ function buildHtmlGenerationPrompt(args: BuildPromptArgs): string {
   // Empirically: a long branching prompt + a 4-character user reply makes
   // claude --print return an empty string (Joey hit this on every 2nd turn).
   if (answeringOptions) {
-    const optMatch = /```hv-options\s*\n([\s\S]*?)```/i.exec(lastAssistant!.content);
+    const optMatch = /```hv-options\s*\n([\s\S]*?)```/i.exec(cardAssistant!.content);
     let question = '';
     let pickedHint = '';
     if (optMatch && optMatch[1]) {
