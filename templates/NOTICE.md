@@ -26,6 +26,24 @@ Per the Apache-2.0 license:
 - Each template's `template.html-video.yaml` records the upstream URL
   in `assets_attribution`.
 
+## MIT — `nateherkai/hyperframes-student-kit`
+
+The following templates derive from
+[nateherkai/hyperframes-student-kit](https://github.com/nateherkai/hyperframes-student-kit/tree/main/video-projects).
+We keep the composition layout + animation structure but replace
+brand-specific copy / assets with generic placeholders so the agent
+can repaint per-project content:
+
+- `frame-product-promo-30s` ← video-projects/linear-promo-30s
+  (Linear logo + screenshots replaced with placeholder SVGs / 1×1
+  PNGs; sound effects kept; 30-second multi-scene promo flow
+  preserved.)
+
+Per the MIT license:
+- Copyright © Nate Herk.
+- We attribute the upstream URL in the template's
+  `assets_attribution`.
+
 ## Original templates (Apache-2.0)
 
 These were authored for html-video and are licensed Apache-2.0:
