@@ -636,21 +636,28 @@ function renderMain() {
               <span class="soundtrack-badge">${t('soundtrack.optional')}</span>
             </summary>
             <div class="soundtrack-body">
-              <p class="soundtrack-hint">${t('soundtrack.hint')}</p>
-              <label class="soundtrack-field">
-                <span>${t('soundtrack.music_label')}</span>
+              <!-- ===== Background music: its own input + generate ===== -->
+              <div class="st-section">
+                <div class="st-section-title">${t('soundtrack.music_label')}</div>
                 <div class="st-presets" id="st-music-presets">
                   ${MUSIC_PRESETS.map((p) => `<button type="button" class="st-preset" data-prompt="${p.prompt}">${t('soundtrack.preset_' + p.key)}</button>`).join('')}
                 </div>
                 <textarea id="st-music-prompt" rows="2" placeholder="${t('soundtrack.music_placeholder')}"></textarea>
-              </label>
-              <label class="soundtrack-field">
-                <span class="st-field-head">${t('soundtrack.narration_label')}
+                <div class="st-vol-row"><label>${t('soundtrack.music_volume')} <input type="range" id="st-music-vol" min="-40" max="0" value="-18" /><b id="st-music-vol-val">-18 dB</b></label></div>
+                <div class="st-section-actions">
+                  <button class="st-generate" id="btn-st-gen-music">${t('soundtrack.gen_music')}</button>
+                  <span class="st-status" id="st-music-status"></span>
+                </div>
+              </div>
+
+              <!-- ===== Narration / voiceover: its own draft + generate ===== -->
+              <div class="st-section">
+                <div class="st-section-title">${t('soundtrack.narration_label')}
                   <span class="st-draft-group">
                     <button type="button" class="st-draft" id="btn-st-draft-frame">${t('soundtrack.draft_frame')}</button>
                     <button type="button" class="st-draft" id="btn-st-draft-all">${t('soundtrack.draft_all')}</button>
                   </span>
-                </span>
+                </div>
                 <span class="st-narration-which" id="st-narration-which"></span>
                 <textarea id="st-narration-text" rows="2" placeholder="${t('soundtrack.narration_placeholder')}"></textarea>
                 <div class="st-voice-row">
@@ -660,15 +667,15 @@ function renderMain() {
                   </select>
                   <button type="button" class="st-fit" id="btn-st-fit" title="${t('soundtrack.fit_hint')}">${t('soundtrack.fit_durations')}</button>
                 </div>
-              </label>
-              <div class="soundtrack-vols">
-                <label>${t('soundtrack.music_volume')} <input type="range" id="st-music-vol" min="-40" max="0" value="-18" /><b id="st-music-vol-val">-18 dB</b></label>
-                <label>${t('soundtrack.narration_volume')} <input type="range" id="st-narration-vol" min="-20" max="6" value="0" /><b id="st-narration-vol-val">0 dB</b></label>
+                <div class="st-vol-row"><label>${t('soundtrack.narration_volume')} <input type="range" id="st-narration-vol" min="-20" max="6" value="0" /><b id="st-narration-vol-val">0 dB</b></label></div>
+                <div class="st-section-actions">
+                  <button class="st-generate" id="btn-st-gen-narration">${t('soundtrack.gen_narration')}</button>
+                  <span class="st-status" id="st-narration-status"></span>
+                </div>
               </div>
+
               <div class="soundtrack-actions">
-                <button class="st-generate" id="btn-st-generate">${t('soundtrack.generate')}</button>
                 <button class="st-clear" id="btn-st-clear">${t('soundtrack.clear')}</button>
-                <span class="st-status" id="st-status"></span>
               </div>
               <div class="soundtrack-preview" id="st-preview"></div>
             </div>
@@ -742,9 +749,11 @@ function wireSoundtrackPanel() {
   const narrationVol = document.getElementById('st-narration-vol');
   const musicVolVal = document.getElementById('st-music-vol-val');
   const narrationVolVal = document.getElementById('st-narration-vol-val');
-  const genBtn = document.getElementById('btn-st-generate');
+  const genMusicBtn = document.getElementById('btn-st-gen-music');
+  const genNarrationBtn = document.getElementById('btn-st-gen-narration');
   const clearBtn = document.getElementById('btn-st-clear');
-  const statusEl = document.getElementById('st-status');
+  const musicStatusEl = document.getElementById('st-music-status');
+  const narrationStatusEl = document.getElementById('st-narration-status');
   const previewEl = document.getElementById('st-preview');
   const draftFrameBtn = document.getElementById('btn-st-draft-frame');
   const draftAllBtn = document.getElementById('btn-st-draft-all');
@@ -814,10 +823,10 @@ function wireSoundtrackPanel() {
         Object.assign(state._narrationByFrame, data.narrationByFrame);
         syncNarrationField();
       } else {
-        statusEl.textContent = t('soundtrack.draft_failed', { message: data.error || `HTTP ${res.status}` });
+        if (narrationStatusEl) narrationStatusEl.textContent = t('soundtrack.draft_failed', { message: data.error || `HTTP ${res.status}` });
       }
     } catch (e) {
-      statusEl.textContent = t('soundtrack.draft_failed', { message: (e?.message ?? e) });
+      if (narrationStatusEl) narrationStatusEl.textContent = t('soundtrack.draft_failed', { message: (e?.message ?? e) });
     } finally {
       if (btn) { btn.textContent = label; }
       syncNarrationField();
@@ -876,32 +885,37 @@ function wireSoundtrackPanel() {
     musicPrompt.value = '';
     narrationText.value = '';
     previewEl.innerHTML = '';
-    statusEl.textContent = '';
+    if (musicStatusEl) musicStatusEl.textContent = '';
+    if (narrationStatusEl) narrationStatusEl.textContent = '';
     if (state.selected) delete state.selected.soundtrack;
   };
 
-  genBtn.onclick = async () => {
+  // Music and narration generate INDEPENDENTLY. `kind` decides which part of
+  // the generate-audio payload we send + which button/status to drive.
+  async function runGenerate(kind /* 'music' | 'narration' */) {
     if (!state.selected) return;
-    const mp = musicPrompt.value.trim();
-    // Stitch all frames' narration in frame order into one continuous script
-    // (the audio is one track; UI is per-frame). Falls back gracefully if a
-    // frame has no line.
-    const stitched = sortedFrames
-      .map((f) => (state._narrationByFrame[f.graphNodeId] || '').trim())
-      .filter((s) => s.length > 0)
-      .join('\n');
-    const nt = stitched || narrationText.value.trim();
-    if (!mp && !nt) { statusEl.textContent = t('soundtrack.empty'); return; }
-
-    genBtn.disabled = true;
-    clearBtn.disabled = true;
-    statusEl.textContent = t('soundtrack.starting');
-    previewEl.innerHTML = '';
-
-    const voiceSel = document.getElementById('st-narration-voice');
+    const btn = kind === 'music' ? genMusicBtn : genNarrationBtn;
+    const statusEl = kind === 'music' ? musicStatusEl : narrationStatusEl;
     const payload = {};
-    if (mp) payload.music = { prompt: mp, instrumental: true, volumeDb: Number(musicVol.value) };
-    if (nt) payload.narration = { text: nt, volumeDb: Number(narrationVol.value), byFrame: state._narrationByFrame, ...(voiceSel?.value && { voiceId: voiceSel.value }) };
+    if (kind === 'music') {
+      const mp = musicPrompt.value.trim();
+      if (!mp) { if (statusEl) statusEl.textContent = t('soundtrack.empty_music'); return; }
+      payload.music = { prompt: mp, instrumental: true, volumeDb: Number(musicVol.value) };
+    } else {
+      // Stitch every frame's line in order into one narration track.
+      const stitched = sortedFrames
+        .map((f) => (state._narrationByFrame[f.graphNodeId] || '').trim())
+        .filter((s) => s.length > 0).join('\n');
+      const nt = stitched || narrationText.value.trim();
+      if (!nt) { if (statusEl) statusEl.textContent = t('soundtrack.empty_narration'); return; }
+      const voiceSel = document.getElementById('st-narration-voice');
+      payload.narration = { text: nt, volumeDb: Number(narrationVol.value), byFrame: state._narrationByFrame, ...(voiceSel?.value && { voiceId: voiceSel.value }) };
+    }
+
+    const label = btn?.textContent;
+    if (btn) btn.disabled = true;
+    clearBtn.disabled = true;
+    if (statusEl) statusEl.textContent = t('soundtrack.starting');
 
     let res;
     try {
@@ -911,14 +925,12 @@ function wireSoundtrackPanel() {
         body: JSON.stringify(payload),
       });
     } catch (e) {
-      statusEl.textContent = t('soundtrack.failed', { message: (e?.message ?? e) });
-      genBtn.disabled = false; clearBtn.disabled = false;
-      return;
+      if (statusEl) statusEl.textContent = t('soundtrack.failed', { message: (e?.message ?? e) });
+      if (btn) btn.disabled = false; clearBtn.disabled = false; return;
     }
     if (!res.ok || !res.body) {
-      statusEl.textContent = t('soundtrack.failed', { message: `HTTP ${res.status}` });
-      genBtn.disabled = false; clearBtn.disabled = false;
-      return;
+      if (statusEl) statusEl.textContent = t('soundtrack.failed', { message: `HTTP ${res.status}` });
+      if (btn) btn.disabled = false; clearBtn.disabled = false; return;
     }
 
     const reader = res.body.getReader();
@@ -935,26 +947,26 @@ function wireSoundtrackPanel() {
           if (!line.startsWith('data: ')) continue;
           let ev;
           try { ev = JSON.parse(line.slice(6)); } catch { continue; }
-          if (ev.type === 'audio_progress') {
-            statusEl.textContent = ev.stage === 'music'
-              ? t('soundtrack.progress_music')
-              : t('soundtrack.progress_narration');
+          if (ev.type === 'audio_progress' && statusEl) {
+            statusEl.textContent = ev.stage === 'music' ? t('soundtrack.progress_music') : t('soundtrack.progress_narration');
           } else if (ev.type === 'audio_done') {
-            statusEl.textContent = t('soundtrack.done');
+            if (statusEl) statusEl.textContent = t('soundtrack.done');
             if (ev.project) state.selected = ev.project;
             renderSoundtrackPreview(ev.soundtrack);
-          } else if (ev.type === 'audio_failed') {
+          } else if (ev.type === 'audio_failed' && statusEl) {
             statusEl.textContent = t('soundtrack.failed', { message: ev.message });
           }
         }
       }
     } catch (e) {
-      statusEl.textContent = t('soundtrack.failed', { message: (e?.message ?? e) });
+      if (statusEl) statusEl.textContent = t('soundtrack.failed', { message: (e?.message ?? e) });
     } finally {
-      genBtn.disabled = false;
+      if (btn) { btn.disabled = false; btn.textContent = label; }
       clearBtn.disabled = false;
     }
-  };
+  }
+  if (genMusicBtn) genMusicBtn.onclick = () => runGenerate('music');
+  if (genNarrationBtn) genNarrationBtn.onclick = () => runGenerate('narration');
 }
 
 function renderSoundtrackPreview(soundtrack) {
