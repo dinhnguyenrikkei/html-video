@@ -75,15 +75,24 @@ license:
   commercial_use: true
 
 provenance:
-  inspired_by:
-    name: frontend-slides (Creative Voltage preset)
-    author: Zara Zhang
+  # L1 — original design inspiration (real world)
+  origin:
+    name: none (original preset by the L2 skill author)
+    kind: none
+    reference: "No specific real-world studio; the 'Creative Voltage' look is an original preset composed by the frontend-slides author"
+  # L2 — the open-source skill we actually transformed from (license governs here)
+  via_skill:
+    name: frontend-slides
+    author: "Zara Zhang"
     url: https://github.com/zarazhangrui/frontend-slides
     license: MIT
-    note: >
-      Visual style (electric-blue / dark offset split, Syne display + Space Mono, script
-      accent, outlined electric word) is reinterpreted as an original CSS/SVG keyframe
-      template. No upstream source code is copied.
+    source_file: STYLE_PRESETS.md (preset "Creative Voltage")
+  # L3 — what this template does
+  transformation: >
+    Static slide preset → animated hyperframes timeline (offset panels slide in, display
+    title rises with one electric outlined word, handwritten script strokes itself in over
+    a swept underline) built as original CSS/SVG keyframes. Original sample data.
+    No upstream source code copied verbatim.
 
 author:
   name: nexu-io

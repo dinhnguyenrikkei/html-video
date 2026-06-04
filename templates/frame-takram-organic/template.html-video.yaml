@@ -75,15 +75,24 @@ license:
   commercial_use: true
 
 provenance:
-  inspired_by:
-    name: huashu-design (Takram philosophy)
-    author: alchaincyf
+  # L1 — original design inspiration (real world)
+  origin:
+    name: Takram
+    kind: design-studio
+    reference: "Japanese design firm — speculative, organic soft-tech; data-as-art visualisation"
+  # L2 — the open-source skill we actually transformed from (license governs here)
+  via_skill:
+    name: huashu-design
+    author: "alchaincyf (花叔 · 花生)"
     url: https://github.com/alchaincyf/huashu-design
     license: MIT
-    note: >
-      Visual style (beige #EFEAE0 ground, frosted rounded card, natural sage/terracotta
-      palette, radial node graph treated as art) is reinterpreted as an original CSS/SVG
-      keyframe template. No upstream source code is copied.
+    source_file: assets/showcases/ppt/ppt-takram.html
+  # L3 — what this template does
+  transformation: >
+    Static PPT showcase → animated hyperframes timeline (frosted rounded card holds the
+    message while curved SVG links draw and radial nodes pop outward around an evolving
+    core, then everything gently floats) built as original CSS/SVG keyframes. Re-coloured
+    palette; original sample data. No upstream source code copied verbatim.
 
 author:
   name: nexu-io

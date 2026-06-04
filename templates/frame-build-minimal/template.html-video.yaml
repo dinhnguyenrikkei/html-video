@@ -69,15 +69,24 @@ license:
   commercial_use: true
 
 provenance:
-  inspired_by:
-    name: huashu-design (Build Studio philosophy)
-    author: alchaincyf
+  # L1 — original design inspiration (real world)
+  origin:
+    name: Build
+    kind: design-studio
+    reference: "London branding studio — luxury minimalism, ultra-thin type, generous whitespace"
+  # L2 — the open-source skill we actually transformed from (license governs here)
+  via_skill:
+    name: huashu-design
+    author: "alchaincyf (花叔 · 花生)"
     url: https://github.com/alchaincyf/huashu-design
     license: MIT
-    note: >
-      Visual style (#FAFAF8 warm white, ultra-thin Inter, #D4A574 gold hairline, 70%+
-      whitespace, corner marks) is reinterpreted as an original CSS-keyframe template.
-      No upstream source code is copied.
+    source_file: assets/showcases/ppt/ppt-build.html
+  # L3 — what this template does
+  transformation: >
+    Static PPT showcase → animated hyperframes timeline (hero word reveals letter by
+    letter in ultra-thin Inter, #D4A574 gold hairline extends, thin indicators rise and
+    breathe) built as original CSS keyframes. Re-typed for motion; original sample data.
+    No upstream source code copied verbatim.
 
 author:
   name: nexu-io

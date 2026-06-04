@@ -73,15 +73,24 @@ license:
   commercial_use: true
 
 provenance:
-  inspired_by:
-    name: huashu-design (Pentagram philosophy)
-    author: alchaincyf
+  # L1 — original design inspiration (real world)
+  origin:
+    name: Pentagram (Michael Bierut)
+    kind: design-studio
+    reference: "pentagram.com — Swiss-grid editorial typography; Hillary Clinton logo system"
+  # L2 — the open-source skill we actually transformed from (license governs here)
+  via_skill:
+    name: huashu-design
+    author: "alchaincyf (花叔 · 花生)"
     url: https://github.com/alchaincyf/huashu-design
     license: MIT
-    note: >
-      Visual style (Swiss grid, giant typographic anchor, #E63946 red accent, black
-      data bar) is reinterpreted as an original CSS-keyframe template. No upstream
-      source code is copied.
+    source_file: assets/showcases/ppt/ppt-pentagram.html
+  # L3 — what this template does
+  transformation: >
+    Static PPT showcase → animated hyperframes timeline (Swiss grid sweeps in, giant
+    typographic anchor bleeds off-edge, bar chart grows, black data bar slides up) built
+    as original CSS keyframes. Pentagram's signature #E63946 red is retained as the
+    recognisable brand cue; original sample data. No upstream source code copied verbatim.
 
 author:
   name: nexu-io

@@ -73,15 +73,23 @@ license:
   commercial_use: true
 
 provenance:
-  inspired_by:
-    name: frontend-slides (Bold Signal preset)
-    author: Zara Zhang
+  # L1 — original design inspiration (real world)
+  origin:
+    name: none (original preset by the L2 skill author)
+    kind: none
+    reference: "No specific real-world studio; the 'Bold Signal' look is an original preset composed by the frontend-slides author"
+  # L2 — the open-source skill we actually transformed from (license governs here)
+  via_skill:
+    name: frontend-slides
+    author: "Zara Zhang"
     url: https://github.com/zarazhangrui/frontend-slides
     license: MIT
-    note: >
-      Visual style (dark gradient stage, #FF5722 focal card, large section numbers, nav
-      breadcrumb with active/inactive opacity) is reinterpreted as an original CSS-keyframe
-      template. No upstream source code is copied.
+    source_file: STYLE_PRESETS.md (preset "Bold Signal")
+  # L3 — what this template does
+  transformation: >
+    Static slide preset → animated hyperframes timeline (section number rolls in, nav
+    breadcrumb fades, #FF5722 focal card slides in from the right, title rises) built as
+    original CSS keyframes. Original sample data. No upstream source code copied verbatim.
 
 author:
   name: nexu-io
