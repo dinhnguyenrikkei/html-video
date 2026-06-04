@@ -273,6 +273,15 @@ async function selectProject(id) {
   state.composing = false;
   try { state.messages = (await API.getMessages(id)).messages ?? []; }
   catch { state.messages = []; }
+  // Export history is persisted on the project — surface the latest export so
+  // its "MP4 ready" card survives a session/project switch (it was previously
+  // only an in-memory chat message and vanished on switch).
+  const exports = state.selected?.exports ?? [];
+  if (exports.length && exports[exports.length - 1]?.path) {
+    state.messages.push({ role: 'export-done', content: exports[exports.length - 1].path, ts: Date.now() });
+  } else if (state.selected?.lastOutputMp4Path) {
+    state.messages.push({ role: 'export-done', content: state.selected.lastOutputMp4Path, ts: Date.now() });
+  }
   // If a generation is still running on the backend for this project, surface a
   // live "still generating" line (the in-memory progress lines were lost on the
   // switch; the result will appear in messages once it finishes — reload to see).

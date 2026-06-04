@@ -8,7 +8,7 @@
  */
 
 import { randomUUID } from 'node:crypto';
-import { join } from 'node:path';
+import { join, basename } from 'node:path';
 import type {
   Asset,
   FrameRecord,
@@ -368,7 +368,11 @@ export class ProjectOrchestrator {
   }): Promise<{ project: Project; outputPath: string }> {
     const project = await this.deps.projects.load(args.projectId);
     const projectDir = await this.deps.projects.ensureDir(project.id);
-    const outputPath = args.outputPath ?? join(projectDir, 'output.mp4');
+    // Unique per-export filename so repeated exports of the SAME project don't
+    // overwrite each other (different projects already have separate dirs).
+    // output.mp4 stays as a stable "latest" alias updated after each export.
+    const stamp = new Date().toISOString().replace(/[:.]/g, '-').replace('T', '_').slice(0, 19);
+    const outputPath = args.outputPath ?? join(projectDir, `output-${stamp}.mp4`);
 
     // v0.8: multi-frame path. If the project has frames[] from a content graph,
     // render each frame's HTML to a per-frame MP4, then ffmpeg concat them.
@@ -414,6 +418,7 @@ export class ProjectOrchestrator {
       const totalDur = ordered.reduce((s, f) => s + (f.durationSec || 0), 0);
       await this.applySoundtrack(project, outputPath, totalDur, args.onProgress);
       project.lastOutputMp4Path = outputPath;
+      recordExport(project, outputPath);
       project.status = 'rendered';
       await this.deps.projects.save(project);
       return { project, outputPath };
@@ -446,6 +451,7 @@ export class ProjectOrchestrator {
     );
     await this.applySoundtrack(project, outputPath, undefined, args.onProgress);
     project.lastOutputMp4Path = outputPath;
+    recordExport(project, outputPath);
     project.status = 'rendered';
     await this.deps.projects.save(project);
     return { project, outputPath };
@@ -673,6 +679,15 @@ async function muxAudioWithFfmpeg(args: {
 // ---------------------------------------------------------------------------
 // Helpers
 // ---------------------------------------------------------------------------
+
+/** Append this export to the project's history (newest last, de-duped by path,
+ *  capped so it doesn't grow unbounded). */
+function recordExport(project: Project, outputPath: string): void {
+  const list = (project.exports ?? []).filter((e) => e.path !== outputPath);
+  list.push({ path: outputPath, filename: basename(outputPath), createdAt: new Date().toISOString() });
+  // Keep the most recent 20.
+  project.exports = list.slice(-20);
+}
 
 function templateRefFromMeta(meta: TemplateMetadata) {
   if (!meta.__dir) {
