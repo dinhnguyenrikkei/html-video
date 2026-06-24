@@ -445,7 +445,9 @@ export class ProjectOrchestrator {
 
     await adapter.render(
       {
-        template: templateRefFromMeta(tmpl),
+        template: project.lastPreviewHtmlPath
+          ? { id: project.id, engine: tmpl.engine, sourcePath: project.lastPreviewHtmlPath }
+          : templateRefFromMeta(tmpl),
         variables: project.variables,
         config: {
           format: 'mp4',
@@ -860,6 +862,8 @@ async function muxAudioWithFfmpeg(args: {
   if (hasNarration) { inputs.push('-i', args.narrationPath!); narrIdx = next++; }
 
   // Build a filter graph producing a single [aout] label.
+  // Narration uses loudnorm (EBU R128) at -15 LUFS, True Peak -1 dBTP
+  // so volume stays consistent across the entire video (no loud/quiet sections).
   const filters: string[] = [];
   const mixLabels: string[] = [];
   if (hasMusic) {
@@ -874,11 +878,15 @@ async function muxAudioWithFfmpeg(args: {
     mixLabels.push('[bg]');
   }
   if (hasNarration) {
-    filters.push(`[${narrIdx}:a]volume=${narrVol}dB[vo]`);
+    // loudnorm at -15 LUFS / -1 dBTP (EBU R128) for platform-ready, consistent volume.
+    // normalize=0 on amix prevents the mixer from reducing overall level when combining tracks.
+    const narrVolFilter = narrVol !== 0 ? `,volume=${narrVol}dB` : '';
+    filters.push(`[${narrIdx}:a]loudnorm=I=-15:TP=-1:LRA=11:print_format=none${narrVolFilter}[vo]`);
     mixLabels.push('[vo]');
   }
   if (mixLabels.length === 2) {
-    filters.push(`${mixLabels[0]}${mixLabels[1]}amix=inputs=2:duration=longest:dropout_transition=0[aout]`);
+    // normalize=0 keeps narration at its loudnorm-calibrated level; only music is ducked.
+    filters.push(`${mixLabels[0]}${mixLabels[1]}amix=inputs=2:duration=longest:dropout_transition=0:normalize=0[aout]`);
   } else {
     // single source → relabel to [aout]
     filters.push(`${mixLabels[0]}anull[aout]`);

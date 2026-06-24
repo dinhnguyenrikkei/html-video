@@ -260,8 +260,8 @@ export async function render(input: RenderInput, ctx: RenderContext): Promise<Re
         return Math.max(maxMs, gsapMs);
       });
       // +0.4s settle so the final animation frame is actually captured; cap at
-      // 30s so a stray huge value can't make a frame run away.
-      const needed = Math.min(30, (animMs + 400) / 1000);
+      // 300s so a stray huge value can't make a frame run away.
+      const needed = Math.min(300, (animMs + 400) / 1000);
       // Only extend when the duration is a soft 'auto' fallback. When the user
       // set an explicit per-frame length (multi-frame export), it's a hard cap —
       // honoring it keeps "每帧 4s" at 4s instead of letting one long animation
@@ -432,7 +432,59 @@ async function prepareSourceHtml(
 ): Promise<{ loadPath: string; cleanup?: () => Promise<void> }> {
   const raw = await readFile(sourcePath, 'utf8');
   const srcMatches = Array.from(raw.matchAll(/data-composition-src=["']([^"']+)["']/g));
-  if (srcMatches.length === 0) return { loadPath: sourcePath };
+  if (srcMatches.length === 0) {
+    const trimmed = raw.trim();
+    if (trimmed.startsWith('<template') && trimmed.endsWith('</template>')) {
+      const content = trimmed.replace(/^<template[^>]*>/i, '').replace(/<\/template>\s*$/i, '');
+      const wrapped = `<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1920, height=1080" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      width: 1920px;
+      height: 1080px;
+      overflow: hidden;
+      background: #000;
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+  ${content}
+  <script>
+    (function() {
+      window.__hvPlayAll = function () {
+        var tls = window.__timelines || {};
+        Object.keys(tls).forEach(function (k) {
+          var tl = tls[k];
+          if (tl && typeof tl.play === 'function') tl.play(0);
+        });
+      };
+      setTimeout(function () {
+        if (!window.__hvPlayed) {
+          window.__hvPlayed = true;
+          window.__hvPlayAll();
+        }
+      }, 250);
+    })();
+  </script>
+</body>
+</html>`;
+      const loadPath = join(dirname(sourcePath), `.hv-render-comp-${Date.now()}.html`);
+      await writeFile(loadPath, wrapped, 'utf8');
+      return {
+        loadPath,
+        cleanup: async () => {
+          await rm(loadPath, { force: true }).catch(() => {});
+        },
+      };
+    }
+    return { loadPath: sourcePath };
+  }
 
   const srcDir = dirname(sourcePath);
   const compMap: Record<string, string> = {};

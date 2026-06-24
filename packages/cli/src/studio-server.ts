@@ -2454,13 +2454,13 @@ function buildStylePhasePrompt(pickedType: string): string {
   p.push('```hv-options');
   p.push(JSON.stringify({
     meta: { phase: 'style' },
-    question: '视觉风格怎么定？',
+    question: 'Xác định phong cách hình ảnh?',
     options: [
-      { label: 'Cyberpunk glitch',    hint: '霓虹 / 故障感 / 高对比' },
-      { label: 'Swiss minimalist',    hint: '网格 / 无衬线 / 留白' },
-      { label: 'Warm-grain magazine', hint: '纸感 / 衬线 / 暖色' },
-      { label: 'Mono brutalist',      hint: '黑白 / 块状 / 粗体' },
-      { label: '从设计模板选',        hint: '上方挑一个现成模板' },
+      { label: 'Cyberpunk glitch',    hint: 'Neon / Hiệu ứng glitch / Tương phản cao' },
+      { label: 'Swiss minimalist',    hint: 'Hệ thống lưới / Sans-serif / Khoảng trắng' },
+      { label: 'Warm-grain magazine', hint: 'Chất liệu giấy / Serif / Tông màu ấm' },
+      { label: 'Mono brutalist',      hint: 'Trắng đen / Dạng khối / Chữ đậm' },
+      { label: 'Chọn từ mẫu thiết kế', hint: 'Chọn một mẫu thiết kế có sẵn ở phía trên' },
     ],
     allow_freeform: true,
   }, null, 2));
@@ -2497,11 +2497,11 @@ function buildHtmlGenerationPrompt(args: BuildPromptArgs): string {
     em.push('```hv-options');
     em.push(JSON.stringify({
       meta: { phase: 'edit-menu' },
-      question: '想改哪方面？',
+      question: 'Bạn muốn chỉnh sửa phần nào?',
       options: [
-        { label: '🎨 换风格', hint: '保留内容，换一套视觉风格' },
-        { label: '✏️ 改内容', hint: '改文案 / 主题 / 重写脚本' },
-        { label: '⏱️ 改时长', hint: '调整每帧时长 / 节奏' },
+        { label: '🎨 Đổi phong cách', hint: 'Giữ nguyên nội dung, thay đổi phong cách thiết kế' },
+        { label: '✏️ Sửa nội dung', hint: 'Chỉnh sửa văn bản / Chủ đề / Viết lại kịch bản' },
+        { label: '⏱️ Đổi thời lượng', hint: 'Điều chỉnh thời lượng của từng khung hình / Nhịp điệu' },
       ],
       allow_freeform: true,
     }, null, 2));
@@ -2524,12 +2524,12 @@ function buildHtmlGenerationPrompt(args: BuildPromptArgs): string {
     opener.push('```hv-options');
     opener.push(JSON.stringify({
       meta: { phase: 'type' },
-      question: '想做哪种内容？',
+      question: 'Bạn muốn tạo loại nội dung nào?',
       options: [
-        { label: '单帧标题卡',   hint: 'logo / 封面 / 单画面 - 5-10s' },
-        { label: '多帧预告片',   hint: '产品 / 活动 teaser, 3-6 帧' },
-        { label: '数据大字报',   hint: '1-2 个核心数字, 社媒爆款风' },
-        { label: '概念解说短片', hint: '几帧讲清一个 idea / feature' },
+        { label: 'Thẻ tiêu đề đơn khung',   hint: 'Logo / Ảnh bìa / Một khung hình - 5-10s' },
+        { label: 'Video giới thiệu đa khung',   hint: 'Teaser giới thiệu sản phẩm / Sự kiện, từ 3-6 khung hình' },
+        { label: 'Bảng biểu số liệu',   hint: 'Tập trung 1-2 con số cốt lõi, phong cách viral MXH' },
+        { label: 'Video giải thích khái niệm', hint: 'Dùng vài khung hình để làm rõ một ý tưởng / tính năng' },
       ],
       allow_freeform: true,
     }, null, 2));
@@ -2609,13 +2609,13 @@ function buildHtmlGenerationPrompt(args: BuildPromptArgs): string {
     p.push('```hv-options');
     p.push(JSON.stringify({
       meta: { phase: 'need-template' },
-      question: '先在顶部「模板」里选一个模板，选好后点下面继续；或直接选一种内置风格：',
+      question: 'Hãy chọn một mẫu thiết kế từ menu "Mẫu" ở trên cùng, sau đó bấm tiếp tục ở dưới; hoặc chọn trực tiếp phong cách tích hợp sẵn:',
       options: [
-        { label: '我已选好模板，继续', hint: '用顶部选中的模板生成' },
-        { label: 'Cyberpunk glitch',   hint: '霓虹 / 故障感 / 高对比' },
-        { label: 'Swiss minimalist',   hint: '网格 / 无衬线 / 留白' },
-        { label: 'Warm-grain magazine',hint: '纸感 / 衬线 / 暖色' },
-        { label: 'Mono brutalist',     hint: '黑白 / 块状 / 粗体' },
+        { label: 'Tôi đã chọn xong mẫu thiết kế, tiếp tục', hint: 'Tạo video bằng mẫu thiết kế đã chọn ở trên' },
+        { label: 'Cyberpunk glitch',   hint: 'Neon / Hiệu ứng glitch / Tương phản cao' },
+        { label: 'Swiss minimalist',   hint: 'Hệ thống lưới / Sans-serif / Khoảng trắng' },
+        { label: 'Warm-grain magazine',hint: 'Chất liệu giấy / Serif / Tông màu ấm' },
+        { label: 'Mono brutalist',     hint: 'Trắng đen / Dạng khối / Chữ đậm' },
       ],
       allow_freeform: true,
     }, null, 2));
@@ -2634,7 +2634,7 @@ function buildHtmlGenerationPrompt(args: BuildPromptArgs): string {
       : (inputs.pickedType ?? '');
     const isMulti = !!pickedType && isMultiFrameType(pickedType);
     const defaults = {
-      aspect:      pre.aspect      ?? '16:9 横屏',
+      aspect:      pre.aspect      ?? '16:9 Ngang',
       duration:    pre.duration    ?? (isMulti ? '15' : '5'),
       frame_count: pre.frame_count ?? (isMulti ? '4' : '1'),
       // Per-frame pacing default 4s — comfortable, avoids the "rushed" feel a
@@ -2654,16 +2654,16 @@ function buildHtmlGenerationPrompt(args: BuildPromptArgs): string {
     p.push('```hv-form');
     p.push(JSON.stringify({
       meta: { phase: 'format' },
-      title: isEdit ? '改一下格式' : (isMulti ? '最后一步：尺寸 / 每帧时长 / 帧数' : '最后一步：选个尺寸 / 时长'),
+      title: isEdit ? 'Thay đổi định dạng' : (isMulti ? 'Bước cuối: Kích thước / Thời lượng mỗi khung / Số khung hình' : 'Bước cuối: Chọn kích thước / Thời lượng'),
       fields: [
         {
-          key: 'aspect', label: '画面尺寸', kind: 'buttons', required: true,
+          key: 'aspect', label: 'Kích thước khung hình', kind: 'buttons', required: true,
           default: defaults.aspect,
           options: [
-            { value: '16:9 横屏',     label: '16:9 横屏' },
-            { value: '9:16 手机竖屏', label: '9:16 竖屏' },
-            { value: '1:1 方形',      label: '1:1 方形' },
-            { value: '4:5 小红书',    label: '4:5 小红书' },
+            { value: '16:9 Ngang',     label: '16:9 Ngang' },
+            { value: '9:16 Dọc',       label: '9:16 Dọc' },
+            { value: '1:1 Vuông',      label: '1:1 Vuông' },
+            { value: '4:5 Dọc ngắn',   label: '4:5 Dọc ngắn' },
           ],
         },
         // Multi-frame: pace by PER-FRAME duration (total = per_frame × frames,
@@ -2671,13 +2671,13 @@ function buildHtmlGenerationPrompt(args: BuildPromptArgs): string {
         ...(isMulti
           ? [
               {
-                key: 'per_frame', label: '每帧时长 (秒)', kind: 'buttons', required: true,
+                key: 'per_frame', label: 'Thời lượng mỗi khung (giây)', kind: 'buttons', required: true,
                 default: defaults.per_frame,
-                hint: '总时长 = 每帧时长 × 帧数',
+                hint: 'Tổng thời lượng = Thời lượng mỗi khung × Số khung hình',
                 options: ['2', '3', '4', '5', '6', '8'].map((v) => ({ value: v, label: `${v}s` })),
               },
               {
-                key: 'frame_count', label: '帧数', kind: 'buttons', required: true,
+                key: 'frame_count', label: 'Số khung hình', kind: 'buttons', required: true,
                 default: defaults.frame_count,
                 options: ['2', '3', '4', '5', '6', '7', '8', '9', '10'].map((v) => ({ value: v, label: v })),
               },
@@ -2685,18 +2685,18 @@ function buildHtmlGenerationPrompt(args: BuildPromptArgs): string {
               // bars grow) instead of static hyperframes HTML. Default OFF —
               // Remotion is a user-chosen enhancement, the AI never flips it.
               {
-                key: 'remotion_enhance', label: '⚡ 数据帧用 Remotion', kind: 'buttons', required: false,
-                default: '关',
-                hint: '数据帧用原生 Remotion 渲染（数字滚动 / 柱子生长）；其余帧仍走 Hyperframes',
+                key: 'remotion_enhance', label: '⚡ Dùng Remotion cho khung số liệu', kind: 'buttons', required: false,
+                default: 'Tắt',
+                hint: 'Khung số liệu sẽ dùng Remotion để hiển thị biểu đồ/số chạy; các khung khác vẫn dùng Hyperframes',
                 options: [
-                  { value: '关', label: '关' },
-                  { value: '开', label: '开 · Remotion' },
+                  { value: 'Tắt', label: 'Tắt' },
+                  { value: 'Bật', label: 'Bật · Remotion' },
                 ],
               },
             ]
           : [
               {
-                key: 'duration', label: '时长 (秒)', kind: 'buttons', required: true,
+                key: 'duration', label: 'Thời lượng (giây)', kind: 'buttons', required: true,
                 default: defaults.duration,
                 options: ['3', '5', '10', '15'].map((v) => ({ value: v, label: `${v}s` })),
               },
@@ -2717,14 +2717,14 @@ function buildHtmlGenerationPrompt(args: BuildPromptArgs): string {
     const pickedStyle = lastCardPickByPhase(history, 'style') ?? '';
     const contentTurns = collectContentTurns(history);
     const summaryRows: { label: string; value: string }[] = [];
-    if (pickedType) summaryRows.push({ label: '类型', value: pickedType });
+    if (pickedType) summaryRows.push({ label: 'Phân loại', value: pickedType });
     if (contentTurns.length > 0) {
-      summaryRows.push({ label: '内容', value: contentTurns.join(' · ').slice(0, 240) });
+      summaryRows.push({ label: 'Nội dung', value: contentTurns.join(' · ').slice(0, 240) });
     }
-    if (pickedStyle) summaryRows.push({ label: '风格', value: pickedStyle });
-    if (tmpl) summaryRows.push({ label: '模板', value: tmpl.name });
+    if (pickedStyle) summaryRows.push({ label: 'Phong cách', value: pickedStyle });
+    if (tmpl) summaryRows.push({ label: 'Mẫu thiết kế', value: tmpl.name });
     const labelMap: Record<string, string> = {
-      aspect: '尺寸', duration: '时长', frame_count: '帧数', per_frame: '每帧时长',
+      aspect: 'Kích thước', duration: 'Thời lượng', frame_count: 'Số khung hình', per_frame: 'Thời lượng mỗi khung',
     };
     // When pacing by per-frame, show per-frame + frames + derived total.
     const pf = Number(collected.per_frame ?? '') || 0;
@@ -2735,10 +2735,10 @@ function buildHtmlGenerationPrompt(args: BuildPromptArgs): string {
     }
     if (pf > 0) {
       const frames = Number(collected.frame_count ?? '4') || 4;
-      summaryRows.push({ label: '总时长', value: `${pf * frames}s` });
+      summaryRows.push({ label: 'Tổng thời lượng', value: `${pf * frames}s` });
     }
     if (attachments.length > 0) {
-      summaryRows.push({ label: '素材', value: attachments.map((a) => a.filename).join(', ') });
+      summaryRows.push({ label: 'Tài liệu đính kèm', value: attachments.map((a) => a.filename).join(', ') });
     }
 
     const p: string[] = [];
@@ -2747,7 +2747,7 @@ function buildHtmlGenerationPrompt(args: BuildPromptArgs): string {
     p.push('```hv-confirm');
     p.push(JSON.stringify({
       meta: { phase: 'confirm' },
-      title: '按这些信息生成？',
+      title: 'Tạo video với các thông tin này?',
       summary: summaryRows,
       actions: ['generate', 'edit'],
     }, null, 2));
@@ -3163,7 +3163,7 @@ async function runSplitMultiFrameGenerate(
   // Opt-in (format card): render data frames natively with Remotion. When on,
   // the planner must give every data node structured items, and after each
   // data frame's HTML is written we enhance it in place (best-effort).
-  const enhanceData = (collected.remotion_enhance ?? '').startsWith('开');
+  const enhanceData = (collected.remotion_enhance ?? '').startsWith('开') || (collected.remotion_enhance ?? '').startsWith('Bật');
   // Prefer per-frame pacing (total = per_frame × frames) — set by the format
   // card so a short total ÷ many frames can't produce a rushed clip. Fall back
   // to total ÷ frames for older projects that only stored `duration`.

@@ -1792,14 +1792,14 @@ function renderFormCard(form, submitted, msgIdx) {
     : '';
   const dropHtml = allowAttachments && !submitted ? `
     <div class="form-attachments" data-form-msg="${msgIdx}">
-      <div class="form-drop-hint">📎 拖拽 / 粘贴 / 选择文件作为素材（logo、截图、数据 CSV…可选）</div>
+      <div class="form-drop-hint">📎 Kéo thả / Dán / Chọn file làm tài liệu đính kèm (logo, ảnh chụp màn hình, file CSV số liệu... tùy chọn)</div>
       <div class="form-attachment-list" id="form-att-${msgIdx}"></div>
       <input type="file" id="form-file-${msgIdx}" multiple style="display:none" />
-      <button type="button" class="form-attach-btn" data-form-msg="${msgIdx}">+ 添加文件</button>
+      <button type="button" class="form-attach-btn" data-form-msg="${msgIdx}">+ Thêm file</button>
     </div>` : '';
   const actionsHtml = submitted ? '' : `
     <div class="form-actions">
-      <button class="form-submit" data-form-msg="${msgIdx}">提交 ↵</button>
+      <button class="form-submit" data-form-msg="${msgIdx}">Gửi ↵</button>
     </div>`;
   return `<div class="form-card${submitted ? ' submitted' : ''}">
     <div class="form-title">${esc(title)}</div>
@@ -1825,8 +1825,8 @@ function renderConfirmCard(confirm, resolved, msgIdx) {
   }).join('');
   const actionsHtml = resolved ? '' : `
     <div class="confirm-actions">
-      ${actions.includes('generate') ? `<button class="confirm-go" data-confirm-msg="${msgIdx}" data-action="generate">✓ 开始生成</button>` : ''}
-      ${actions.includes('edit') ? `<button class="confirm-edit" data-confirm-msg="${msgIdx}" data-action="edit">✏️ 修改</button>` : ''}
+      ${actions.includes('generate') ? `<button class="confirm-go" data-confirm-msg="${msgIdx}" data-action="generate">✓ Bắt đầu tạo</button>` : ''}
+      ${actions.includes('edit') ? `<button class="confirm-edit" data-confirm-msg="${msgIdx}" data-action="edit">✏️ Sửa</button>` : ''}
     </div>`;
   return `<div class="confirm-card${resolved ? ' resolved' : ''}">
     <div class="confirm-title">${esc(title)}</div>
@@ -1856,8 +1856,8 @@ function renderOptionCard(opts, picked, msgIdx) {
   const freeformHtml = allowFreeform && !picked ? `
     <div class="freeform-input">
       <textarea data-freeform-msg="${msgIdx}" rows="1"
-        placeholder="…or type your own answer"></textarea>
-      <button class="freeform-send" data-freeform-msg="${msgIdx}" disabled>↵ Send</button>
+        placeholder="…hoặc tự điền câu trả lời của bạn"></textarea>
+      <button class="freeform-send" data-freeform-msg="${msgIdx}" disabled>↵ Gửi</button>
     </div>` : '';
   return `<div class="opt-card">
     <div class="question">${esc(opts.question)}</div>
