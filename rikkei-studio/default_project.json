@@ -1,0 +1,105 @@
+{
+  "name": "DE Marketing Video",
+  "resolution": {"width": 1080, "height": 1920},
+  "aspect": "9:16",
+  "speed_factor": 1.12,
+  "temperature": 0.2,
+  "music_volume_db": -19,
+  "narration_volume_db": 3,
+  "fade_out_sec": 2,
+  "scenes": [
+    {
+      "id": "s0",
+      "kicker": "🔥 CẢNH BÁO 🔥",
+      "title": "HỌC VẸT TOOL",
+      "tts_text": "Học x pác, cáp ca, e phờ lâu riêng lẻ bằng học vẹt. Biết chúng mà chưa từng ghép lại để giải một bài toán thật, với nhà tuyển dụng bạn vẫn là con số không.",
+      "display_chunks": [
+        {"words": ["Học", "Spark,", "Kafka,", "Airflow", "riêng", "lẻ"], "pause_after": 0.4},
+        {"words": ["bằng", "học", "vẹt."], "pause_after": 0.8},
+        {"words": ["Biết", "chúng", "mà", "chưa", "từng", "ghép", "lại"], "pause_after": 0.4},
+        {"words": ["để", "giải", "một", "bài", "toán", "thật,"], "pause_after": 0.5},
+        {"words": ["với", "nhà", "tuyển", "dụng,", "bạn", "vẫn", "là", "con", "số", "0."]}
+      ],
+      "theme": "hook",
+      "visual": {
+        "card1": {"badge": "4 Năm Đại Học", "name": "Bằng Cử Nhân CNTT", "status": "GPA Khá / Giỏi"},
+        "card2": {"badge": "Phỏng Vấn Thực Tế", "name": "Pipeline Dữ Liệu", "status": "Ngồi Đơ / Trống Rỗng"}
+      },
+      "duration_sec": 9.6
+    },
+    {
+      "id": "s1",
+      "kicker": "💡 THỰC TẾ 💡",
+      "title": "CV TOÀN TOOL",
+      "tts_text": "Nhà tuyển dụng đa ta không hỏi em biết tun gì, họ hỏi em đã biu được gì. Nhiều bạn liệt kê mười cái tun trong xi vi: x pác, cáp ca, e phờ lâu, nhìn rất ngầu.",
+      "display_chunks": [
+        {"words": ["Nhà", "tuyển", "dụng", "Data", "không", "hỏi"], "pause_after": 0.3},
+        {"words": ["em", "biết", "tool", "gì,"], "pause_after": 0.4},
+        {"words": ["họ", "hỏi", "em", "đã", "build", "được", "gì."], "pause_after": 0.8},
+        {"words": ["Nhiều", "bạn", "liệt", "kê", "10", "cái", "tool", "trong", "CV:"], "pause_after": 0.4},
+        {"words": ["Spark,", "Kafka,", "Airflow,", "nhìn", "rất", "ngầu."]}
+      ],
+      "theme": "reveal",
+      "visual": {
+        "card1": {"badge": "CV Của Bạn", "name": "10 Tools", "status": "Spark · Kafka · Airflow"},
+        "card2": {"badge": "NTD Hỏi", "name": "Build Gì?", "status": "... Im Lặng ..."}
+      },
+      "duration_sec": 9.6
+    },
+    {
+      "id": "s2",
+      "kicker": "⚠️ CÚ SỐC ⚠️",
+      "title": "PHỎNG VẤN THẬT",
+      "tts_text": "Nhưng phỏng vấn thật họ hỏi. Em mô tả cách em đưa đơn hàng từ oét về kho dữ liệu, làm sạch rồi dựng báo cáo doanh thu đi. Và đa số đứng hình.",
+      "display_chunks": [
+        {"words": ["Nhưng", "phỏng", "vấn", "thật", "họ", "hỏi:"], "pause_after": 0.6},
+        {"words": ["Em", "mô", "tả", "cách", "em", "đưa", "đơn", "hàng"], "pause_after": 0.3},
+        {"words": ["từ", "web", "về", "kho", "dữ", "liệu,"], "pause_after": 0.4},
+        {"words": ["làm", "sạch", "rồi", "dựng", "báo", "cáo", "doanh", "thu", "đi."], "pause_after": 0.8},
+        {"words": ["Và", "đa", "số", "đứng", "hình."]}
+      ],
+      "theme": "stats",
+      "visual": {
+        "card1": {"badge": "Câu Hỏi", "name": "Pipeline E2E", "status": "Web → Warehouse → Report"},
+        "card2": {"badge": "Kết Quả", "name": "Đứng Hình", "status": "90% Ứng Viên"}
+      },
+      "duration_sec": 8.6
+    },
+    {
+      "id": "s3",
+      "kicker": "🔧 GIẢI PHÁP 🔧",
+      "title": "LẮP CẢ CỖ MÁY",
+      "tts_text": "Vì học từng tun rời rạc thì biết cú pháp, nhưng không biết ghép thế nào. Cái nhà tuyển dụng mua là khả năng lắp cả cỗ máy pai lai chạy từ đầu đến cuối.",
+      "display_chunks": [
+        {"words": ["Vì", "học", "từng", "tool", "rời", "rạc", "thì", "biết", "cú", "pháp,"], "pause_after": 0.5},
+        {"words": ["nhưng", "không", "biết", "ghép", "thế", "nào."], "pause_after": 0.8},
+        {"words": ["Cái", "nhà", "tuyển", "dụng", "mua", "là", "khả", "năng"], "pause_after": 0.4},
+        {"words": ["lắp", "cả", "cỗ", "máy", "pipeline", "chạy", "từ", "đầu", "đến", "cuối."]}
+      ],
+      "theme": "solution",
+      "visual": {
+        "card1": {"badge": "Học Rời Rạc", "name": "Cú Pháp", "status": "Biết Nhưng Không Ghép"},
+        "card2": {"badge": "Cần Có", "name": "Cỗ Máy E2E", "status": "Pipeline Hoàn Chỉnh"}
+      },
+      "duration_sec": 7.8
+    },
+    {
+      "id": "s4",
+      "kicker": "👇 HÀNH ĐỘNG 👇",
+      "title": "COMMENT 'DE'",
+      "tts_text": "Đừng đếm tun nữa, hãy đếm số pai lai thật bạn từng biu. Comment đê, mình chia sẻ lộ trình ghép các tun thành dự án thực tế.",
+      "display_chunks": [
+        {"words": ["Đừng", "đếm", "tool", "nữa,"], "pause_after": 0.4},
+        {"words": ["hãy", "đếm", "số", "pipeline", "thật", "bạn", "từng", "build."], "pause_after": 0.8},
+        {"words": ["Comment", "DE", "mình", "chia", "sẻ", "lộ", "trình"], "pause_after": 0.4},
+        {"words": ["ghép", "các", "tool", "thành", "dự", "án", "thực", "tế."]}
+      ],
+      "theme": "cta",
+      "visual": {
+        "card1": {"badge": "Đừng Làm", "name": "Đếm Tool", "status": "Vô Nghĩa"},
+        "card2": {"badge": "Hãy Làm", "name": "Build Pipeline", "status": "Comment DE Ngay!"}
+      },
+      "duration_sec": 8.6
+    }
+  ]
+}

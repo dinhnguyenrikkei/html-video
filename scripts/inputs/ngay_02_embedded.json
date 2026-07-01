@@ -1,0 +1,56 @@
+[
+  {
+    "projectId": "proj_ngay_02_embedded",
+    "projectName": "Phần mềm vs Phần cứng",
+    "aspectRatio": "9:16",
+    "theme": "Hook/Danger",
+    "voiceGender": "FEMALE",
+    "ref_audio": "d:/AI_rikkei/html-video-main/shared_assets/voice_preview.mp3",
+    "backgroundMusic": "d:/AI_rikkei/html-video-main/shared_assets/background_music.mp3",
+    "scenes": [
+      {
+        "id": "s0",
+        "layout": "hook",
+        "voiceover": "Code phần mềm và code phần cứng - Khác nhau một trời một vực như thế nào?",
+        "eyebrow": "⚡ SO SÁNH",
+        "headline": "PHẦN MỀM VS NHÚNG",
+        "subtitle": "Khác nhau một trời một vực như thế nào?"
+      },
+      {
+        "id": "s1",
+        "layout": "reveal",
+        "voiceover": "Code web app, bạn có ram hàng ghi ga bai để vung vẩy. Nhưng code Nhúng, bạn chỉ có vài ki lô bai tài nguyên. Viết một dòng code dư thừa là hệ thống sập toàn tập!",
+        "eyebrow": "Giới hạn tài nguyên",
+        "headline": "GB VS KB",
+        "subtitle": "Phần mềm xài RAM thoải mái. Phần cứng dư 1 dòng code là sập mạch!",
+        "elements": [
+          "Web/App | RAM hàng Gigabyte dư thừa",
+          "Lập trình Nhúng | Giới hạn vài Kilobyte cực đoan"
+        ]
+      },
+      {
+        "id": "s2",
+        "layout": "stats",
+        "voiceover": "Code phần mềm lỗi, bạn ép năm là xong. Code Nhúng lỗi? Bạn phải cầm đồng hồ đo điện, đo từng chân chíp để xem là lỗi code hay cháy mạch! Đổi lại, cảm giác điều khiển vạn vật vật lý bằng code là vô giá.",
+        "eyebrow": "Cách bắt bug",
+        "headline": "F5 HAY CHÁY MẠCH",
+        "subtitle": "Phải dùng đồng hồ đo điện dò từng chân chip để sửa lỗi",
+        "elements": [
+          "Đo tín hiệu | 99% lỗi do phần cứng"
+        ]
+      },
+      {
+        "id": "s3",
+        "layout": "cta",
+        "voiceover": "Chinh phục phần cứng không khó nếu có người dẫn đường. Bắt đầu lộ trình Lập trình Nhúng thực chiến cùng chuyên gia Bách Khoa ngay hôm nay. Link ở dưới bình luận!",
+        "headline": "CHINH PHỤC PHẦN CỨNG",
+        "subtitle": "Cùng chuyên gia Bách Khoa",
+        "elements": [
+          "Lập trình Nhúng | Thực chiến từ số 0",
+          "Chuyên gia dẫn đường | Đại học Bách Khoa",
+          "Bắt đầu ngay | Link dưới bình luận"
+        ]
+      }
+    ]
+  }
+]

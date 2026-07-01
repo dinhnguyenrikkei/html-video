@@ -1,0 +1,53 @@
+[
+  {
+    "projectId": "video_nu_gioi_it",
+    "theme": "Vibrant/Youth",
+    "ref_audio": "d:/AI_rikkei/html-video-main/shared_assets/voice_preview.mp3",
+    "backgroundMusic": "d:/AI_rikkei/html-video-main/shared_assets/background_music.mp3",
+    "voiceGender": "FEMALE",
+    "aspectRatio": "9:16",
+    "scenes": [
+      {
+        "id": "scene_1",
+        "layout": "hook",
+        "headline": "Nữ Giới Học Nhúng?",
+        "subtitle": "Khô khan, vất vả hay định kiến sai lầm?",
+        "voiceover": "Con gái học Lập trình Nhúng? Khô khan, vất vả, hay chỉ là định kiến sai lầm?"
+      },
+      {
+        "id": "scene_2",
+        "layout": "reveal",
+        "headline": "Sự Thật Về Nghề",
+        "subtitle": "Đòi hỏi tỉ mỉ và tính tổ chức cực kỳ cao",
+        "elements": [
+          "Vi mạch phức tạp | Đòi hỏi độ chính xác tuyệt đối | fa-solid fa-microchip",
+          "Viết code C/C++ | Sạch sẽ, tối ưu và ít lỗi | fa-solid fa-code"
+        ],
+        "voiceover": "Sự thật là: Code hệ thống nhúng và thiết kế vi mạch đòi hỏi sự cẩn thận, tỉ mỉ và tính tổ chức cực kỳ cao. Mà về sự cẩn thận thì... con trai còn phải gọi con gái bằng cụ!"
+      },
+      {
+        "id": "scene_3",
+        "layout": "stats",
+        "headline": "Lợi Thế Nghề Nghiệp",
+        "subtitle": "Cơ hội vàng cho nữ kỹ sư phần mềm",
+        "elements": [
+          "Tăng Trưởng | Tỉ lệ nhân sự nữ đang tăng | fa-solid fa-arrow-trend-up",
+          "Ngang Bằng | Lương và cơ hội thăng tiến | fa-solid fa-scale-balanced",
+          "Ưu Tiên | Cân bằng nhân sự phòng R&D | fa-solid fa-star"
+        ],
+        "voiceover": "Các tập đoàn công nghệ lớn hiện nay luôn ưu tiên tuyển dụng nữ Kỹ sư em bét đợt để cân bằng nhân sự trong team a en đi. Lương không hề kém cạnh nam giới, thậm chí còn được săn đón gắt gao hơn."
+      },
+      {
+        "id": "scene_4",
+        "layout": "cta",
+        "headline": "Bứt Phá Giới Hạn",
+        "subtitle": "Khóa Nhúng Rikkei Academy",
+        "elements": [
+          "Chứng Minh Năng Lực | Định hình tương lai công nghệ | fa-solid fa-rocket"
+        ],
+        "voiceover": "Bứt phá giới hạn, định hình tương lai công nghệ. Các bạn nữ khối Kỹ thuật, đăng ký khóa Nhúng tại Rikkei Academy để chứng minh năng lực ngay thôi!"
+      }
+    ],
+    "caption": ""
+  }
+]

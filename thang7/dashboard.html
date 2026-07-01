@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Embedded System Campaign Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #171717;
+            --bg-card: rgba(23, 23, 23, 0.8);
+            --accent-primary: #00ffcc;
+            --accent-primary-glow: rgba(0, 255, 204, 0.2);
+            --accent-secondary: #ff00ff;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding: 2rem;
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(0, 255, 204, 0.05), transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(255, 0, 255, 0.05), transparent 25%);
+        }
+
+        .header {
+            margin-bottom: 2rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-main);
+            text-shadow: 0 0 10px var(--accent-primary-glow);
+        }
+
+        .header h1 span {
+            color: var(--accent-primary);
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 15px var(--accent-primary-glow);
+            border-color: var(--accent-primary);
+        }
+
+        .stat-title {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--accent-primary);
+        }
+
+        .stat-card.secondary .stat-value {
+            color: var(--accent-secondary);
+        }
+
+        .calendar-section {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: var(--text-main);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+        }
+
+        tr:hover td {
+            background-color: rgba(255, 255, 255, 0.02);
+        }
+
+        .badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .badge.viral { background-color: rgba(14, 165, 233, 0.2); color: #38bdf8; }
+        .badge.story { background-color: rgba(168, 85, 247, 0.2); color: #c084fc; }
+        .badge.edu { background-color: rgba(34, 197, 94, 0.2); color: #4ade80; }
+        .badge.proof { background-color: rgba(245, 158, 11, 0.2); color: #fbbf24; }
+        .badge.conv { background-color: rgba(239, 68, 68, 0.2); color: #f87171; }
+        
+        .type-video { color: var(--accent-primary); font-weight: 600; }
+        .type-post { color: var(--text-muted); }
+
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Embedded <span>System</span> Campaign (Jul 2026)</h1>
+        <div style="color: var(--text-muted);">Status: <span style="color: var(--accent-primary); font-weight: bold;">Ready for Execution</span></div>
+    </div>
+
+    <div class="dashboard-grid">
+        <div class="stat-card">
+            <div class="stat-title">Total Scripts Generated</div>
+            <div class="stat-value">30</div>
+            <div style="color: var(--text-muted); font-size: 0.875rem; margin-top: 0.5rem;">Days of continuous content</div>
+        </div>
+        <div class="stat-card secondary">
+            <div class="stat-title">AI Video Scripts</div>
+            <div class="stat-value">20</div>
+            <div style="color: var(--text-muted); font-size: 0.875rem; margin-top: 0.5rem;">TikTok / Reels ready</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-title">Social Posts</div>
+            <div class="stat-value">10</div>
+            <div style="color: var(--text-muted); font-size: 0.875rem; margin-top: 0.5rem;">Facebook / LinkedIn ready</div>
+        </div>
+        <div class="stat-card secondary">
+            <div class="stat-title">Expected Leads</div>
+            <div class="stat-value">100+</div>
+            <div style="color: var(--text-muted); font-size: 0.875rem; margin-top: 0.5rem;">Through targeted Conversion</div>
+        </div>
+    </div>
+
+    <div class="calendar-section">
+        <h2 class="section-title">Content Matrix & Schedule</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Day</th>
+                    <th>Format</th>
+                    <th>Pillar</th>
+                    <th>Topic / Title</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>01</td>
+                    <td class="type-video">Video AI</td>
+                    <td><span class="badge viral">Viral</span></td>
+                    <td>Code Web/Mobile đang bão hòa, đâu là "mỏ vàng" tiếp theo?</td>
+                    <td style="color: #4ade80;">✔ Written</td>
+                </tr>
+                <tr>
+                    <td>02</td>
+                    <td class="type-video">Video AI</td>
+                    <td><span class="badge edu">Education</span></td>
+                    <td>Sự khác biệt "một trời một vực" giữa code Phần mềm và Phần cứng</td>
+                    <td style="color: #4ade80;">✔ Written</td>
+                </tr>
+                <tr>
+                    <td>03</td>
+                    <td class="type-video">Video AI</td>
+                    <td><span class="badge viral">Viral</span></td>
+                    <td>Vì sao Kỹ sư Nhúng luôn khan hiếm và ít bị sa thải?</td>
+                    <td style="color: #4ade80;">✔ Written</td>
+                </tr>
+                <tr>
+                    <td>11</td>
+                    <td class="type-video">Video AI</td>
+                    <td><span class="badge story">Story</span></td>
+                    <td>Nỗi ám ảnh của sinh viên Bách Khoa: Lý thuyết hiểu, mạch không chạy!</td>
+                    <td style="color: #4ade80;">✔ Written</td>
+                </tr>
+                <tr>
+                    <td>16</td>
+                    <td class="type-video">Video AI</td>
+                    <td><span class="badge proof">Proof</span></td>
+                    <td>Học để làm, không phải để biết - Thao tác thực tế trên Kit STM32</td>
+                    <td style="color: #4ade80;">✔ Written</td>
+                </tr>
+                <tr>
+                    <td>21</td>
+                    <td class="type-post">Social Post</td>
+                    <td><span class="badge edu">Education</span></td>
+                    <td>Phân tích nhu cầu nhân sự ngành Nhúng trong thời đại AI và IoT</td>
+                    <td style="color: #4ade80;">✔ Written</td>
+                </tr>
+                <tr>
+                    <td>26</td>
+                    <td class="type-post">Social Post</td>
+                    <td><span class="badge story">Story</span></td>
+                    <td>Gương sáng Trần Hoàng Minh - Đánh bại nỗi sợ "mắc kẹt"</td>
+                    <td style="color: #4ade80;">✔ Written</td>
+                </tr>
+                <tr>
+                    <td>30</td>
+                    <td class="type-post">Social Post</td>
+                    <td><span class="badge conv">Conversion</span></td>
+                    <td>Chỉ còn 3 ngày đóng đăng ký! Bạn đã sẵn sàng bứt phá?</td>
+                    <td style="color: #4ade80;">✔ Written</td>
+                </tr>
+            </tbody>
+        </table>
+        <div style="text-align: center; margin-top: 1.5rem; color: var(--text-muted); font-size: 0.875rem;">
+            *Showing a subset of 30 generated scripts. Check /scripts directory for full files.
+        </div>
+    </div>
+</body>
+</html>

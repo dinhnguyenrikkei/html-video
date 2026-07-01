@@ -1,0 +1,64 @@
+{
+  "projectId": "software_vs_embedded",
+  "projectName": "Software vs Embedded",
+  "aspectRatio": "9:16",
+  "theme": "Tech/Cyberpunk",
+  "voiceGender": "MALE",
+  "ref_audio": "d:/AI_rikkei/html-video-main/shared_assets/voice_preview.mp3",
+  "backgroundMusic": "d:/AI_rikkei/html-video-main/shared_assets/background_music.mp3",
+  "scenes": [
+    {
+      "id": "scene_hook",
+      "layout": "hook",
+      "theme": "Tech/Cyberpunk",
+      "enter_anim": "glitchIn",
+      "exit_anim": "glitchOut",
+      "headline": "SOFTWARE vs EMBEDDED",
+      "subtitle": "Khác nhau một trời một vực",
+      "voiceover": "Code phần mềm và code phần cứng - Khác nhau một trời một vực như thế nào?"
+    },
+    {
+      "id": "scene_reveal",
+      "layout": "reveal",
+      "theme": "Hook/Danger",
+      "enter_anim": "slideLeft",
+      "exit_anim": "dissolve",
+      "headline": "KHỐI LƯỢNG TÀI NGUYÊN",
+      "elements": [
+        "Code Web/App | RAM Gigabyte, Core i7 | fa-solid fa-cloud",
+        "Code Nhúng | RAM vài Kilobyte, chip ARM | fa-solid fa-microchip"
+      ],
+      "voiceover": "Code web app, bạn có ram hàng ghi ga bai để vung vẩy. Nhưng code Nhúng, bạn chỉ có vài ki lô bai tài nguyên. Viết một dòng code dư thừa là hệ thống sập toàn tập!"
+    },
+    {
+      "id": "scene_learning",
+      "layout": "learning-path",
+      "theme": "Minimalist/Dark",
+      "enter_anim": "zoomIn",
+      "exit_anim": "fadeUp",
+      "eyebrow": "TÌM LỖI (DEBUG)",
+      "headline": "PHẦN MỀM vs PHẦN CỨNG",
+      "elements": [
+        "Phần mềm lỗi | Nhấn F5 là xong | fa-solid fa-rotate-right",
+        "Phần cứng lỗi | Dùng đồng hồ đo từng chân chip | fa-solid fa-bolt",
+        "Đặc quyền | Điều khiển vạn vật vật lý | fa-solid fa-robot"
+      ],
+      "voiceover": "Code phần mềm lỗi, bạn bấm ép năm là xong. Code Nhúng lỗi? Bạn phải cầm đồng hồ đo điện, đo từng chân chip để xem là lỗi code hay... cháy mạch! Đổi lại, cảm giác điều khiển vạn vật vật lý bằng chính những dòng code của mình là thứ phần mềm không bao giờ mang lại được."
+    },
+    {
+      "id": "scene_cta",
+      "layout": "cta",
+      "theme": "Vibrant/Youth",
+      "enter_anim": "zoomInBounce",
+      "exit_anim": "zoomOut",
+      "headline": "HUST x RIKKEI",
+      "subtitle": "Chinh phục Lập trình Nhúng",
+      "elements": [
+        "100% | Thực chiến",
+        "1:1 | Chuyên gia",
+        "Job | Đầu ra"
+      ],
+      "voiceover": "Chinh phục phần cứng không khó nếu có người dẫn đường. Bắt đầu lộ trình Lập trình Nhúng thực chiến cùng chuyên gia Bách Khoa ngay hôm nay. Link ở dưới bình luận!"
+    }
+  ]
+}

@@ -1,0 +1,243 @@
+[
+  {
+    "projectId": "proj_de_camp_ngay_01",
+    "projectName": "Lương DE Fresher cao hơn bạn nghĩ",
+    "aspectRatio": "9:16",
+    "theme": "Hook/Danger",
+    "voiceGender": "MALE",
+    "ref_audio": "D:/AI/Rikkei_Edu_agent/marketing-video-maker/test_voice_clone.wav",
+    "backgroundMusic": "D:/AI/Repos/html-video/templates/frame-product-promo-30s/assets/warm-pad.mp3",
+    "scenes": [
+      {
+        "id": "s0",
+        "layout": "hook",
+        "voiceover": "Lương khởi điểm của một {en:Data Engineer} mới ra trường đang là mười lăm đến hai mươi triệu đồng một tháng — cao hơn kha khá so với mặt bằng {en:IT}. Nhưng nghịch lý là chín mươi phần trăm sinh viên nộp đơn bị loại ngay vòng đầu. Vì sao?",
+        "eyebrow": "⚡ THU NHẬP DE",
+        "headline": "LƯƠNG DE FRESHER?",
+        "subtitle": "Mức lương khởi điểm mơ ước nhưng tỷ lệ trượt vòng hồ sơ cực kỳ cao"
+      },
+      {
+        "id": "s1",
+        "layout": "reveal",
+        "voiceover": "Lý do đơn giản: doanh nghiệp nào giờ cũng ngập trong dữ liệu — đơn hàng, khách hàng, hành vi người dùng — nhưng cực kỳ thiếu người biết xây dựng hệ thống để xử lý đống dữ liệu đó. Cầu lớn, cung ít, nên lương đẩy lên cao.",
+        "eyebrow": "Nhu cầu thị trường",
+        "headline": "CẦU LỚN CUNG ÍT",
+        "subtitle": "Doanh nghiệp ngập trong dữ liệu nhưng cực kỳ thiếu kỹ sư hệ thống",
+        "elements": [
+          "Ngập dữ liệu | Đơn hàng, khách hàng, hành vi người dùng khổng lồ",
+          "Khát nhân lực | Cực thiếu người biết xây dựng hệ thống xử lý"
+        ]
+      },
+      {
+        "id": "s2",
+        "layout": "learning-path",
+        "voiceover": "Thế nhưng phần lớn các bạn học xong vẫn trượt, vì học rời rạc: hôm nay học {en:Spark}, mai học {en:Kafka}, mốt học {en:Airflow}… mà chưa từng ghép chúng lại để giải một bài toán thật. Nhà tuyển dụng không hỏi 'em biết {en:Kafka} không' — họ hỏi 'em đã build pipeline xử lý dữ liệu thật bao giờ chưa'.",
+        "eyebrow": "Học tập rời rạc",
+        "headline": "SAI LẦM PHỔ BIẾN",
+        "subtitle": "Chỉ biết cú pháp công cụ rời rạc mà chưa từng build pipeline thật",
+        "elements": [
+          "Học {en:Spark} | Rời rạc",
+          "Học {en:Kafka} | Lý thuyết",
+          "Học {en:Airflow} | Khóa"
+        ]
+      },
+      {
+        "id": "s3",
+        "layout": "stats",
+        "voiceover": "Và lúc đó, cái cứu bạn không phải tấm bằng — mà là một dự án thật trong {en:portfolio}: dữ liệu có lỗi, có trùng, có {en:realtime}, y như {en:production}.",
+        "eyebrow": "Giải pháp bứt phá",
+        "headline": "PORTFOLIO THỰC CHIẾN",
+        "subtitle": "Một dự án thật với dữ liệu có lỗi, có trùng và chạy {en:realtime} thực tế"
+      },
+      {
+        "id": "s4",
+        "layout": "cta",
+        "voiceover": "Nếu bạn là sinh viên năm cuối và muốn ra trường có ngay {en:portfolio} đủ xin việc {en:Data Engineer} — theo dõi mình, mình sẽ chỉ cách {en:build} nó từ con số không.",
+        "headline": "AI-NATIVE DATA ENGINEER",
+        "subtitle": "Kiến tạo portfolio thực chiến từ con số không",
+        "elements": [
+          "Lộ trình chi tiết | Từ con số không",
+          "Dự án thực tế | Môi trường {en:Production}",
+          "Follow me | Theo dõi ngay"
+        ]
+      }
+    ]
+  },
+  {
+    "projectId": "proj_de_camp_ngay_02",
+    "projectName": "Chưa từng build nổi pipeline thực tế",
+    "aspectRatio": "9:16",
+    "theme": "Solution/Brand",
+    "voiceGender": "MALE",
+    "ref_audio": "D:/AI/Rikkei_Edu_agent/marketing-video-maker/test_voice_clone.wav",
+    "backgroundMusic": "D:/AI/Repos/html-video/templates/frame-product-promo-30s/assets/warm-pad.mp3",
+    "scenes": [
+      {
+        "id": "s0",
+        "layout": "hook",
+        "voiceover": "Mình học Công nghệ thông tin bốn năm, {en:GPA} cũng không tệ. Vậy mà buổi phỏng vấn {en:Data} đầu tiên, mình ngồi đơ vì không {en:build} nổi một {en:pipeline} dữ liệu đơn giản.",
+        "eyebrow": "⚡ CÂU CHUYỆN THẬT",
+        "headline": "4 NĂM HỌC CNTT?",
+        "subtitle": "GPA không tệ nhưng ngơ ngác khi gặp bài test thực tế đầu tiên"
+      },
+      {
+        "id": "s1",
+        "layout": "reveal",
+        "voiceover": "Suốt bốn năm, mình học để qua môn. Thi xong là quên. Mình thuộc định nghĩa {en:data warehouse}, {en:ETL}… nhưng chưa một lần chạm vào dữ liệu thật — loại có lỗi, có trùng, đổ về liên tục mỗi giây.",
+        "eyebrow": "Học vẹt lý thuyết",
+        "headline": "HỌC ĐỂ QUA MÔN",
+        "subtitle": "Chưa từng một lần chạm vào dữ liệu thực tế ngoài đời",
+        "elements": [
+          "Thuộc lý thuyết | {en:Data Warehouse}, {en:ETL}",
+          "Chưa làm thực tế | Tránh xa dữ liệu lỗi, dữ liệu trùng"
+        ]
+      },
+      {
+        "id": "s2",
+        "layout": "reveal",
+        "voiceover": "Hôm đó anh phỏng vấn chỉ hỏi: 'Em mô tả cách em đưa đơn hàng từ {en:web} về kho dữ liệu rồi làm báo cáo doanh thu đi.' Mình ấp úng. Về nhà mình ngồi nhìn cái {en:CV} toàn lý thuyết và hiểu: mình thiếu trải nghiệm làm thật.",
+        "eyebrow": "Khoảnh khắc vỡ ra",
+        "headline": "ẤP ÚNG KHI BỊ HỎI",
+        "subtitle": "Không thể thiết kế nổi luồng xử lý dữ liệu đơn giản nhất",
+        "elements": [
+          "Câu hỏi thực tế | Đưa đơn hàng từ {en:web} về kho dữ liệu",
+          "Nhìn lại {en:CV} | Toàn lý thuyết và thiếu hẳn thực hành thực tế"
+        ]
+      },
+      {
+        "id": "s3",
+        "layout": "stats",
+        "voiceover": "Mình bỏ kiểu học thuộc {en:tool}. Bắt đầu làm một dự án {en:end-to-end}: lấy dữ liệu đơn hàng, làm sạch, đẩy vào {en:warehouse}, dựng báo cáo. Lần đầu {en:pipeline} chạy thông, mình mới thấy mình thật sự hiểu.",
+        "eyebrow": "Bước ngoặt",
+        "headline": "DỰ ÁN END-TO-END",
+        "subtitle": "{en:Pipeline} đầu tiên chạy thông giúp hiểu rõ bản chất công việc thực tế"
+      },
+      {
+        "id": "s4",
+        "layout": "cta",
+        "voiceover": "Nếu bạn cũng đang thấy mình học nhiều mà chẳng làm được gì cụ thể — bạn không đơn độc, và không phải tại bạn dốt, mà tại cách học. Bình luận {en:DE} mình chia sẻ lộ trình mình từng đi.",
+        "headline": "ĐỔI CÁCH HỌC NGAY",
+        "subtitle": "Bình luận {en:DE} để nhận lộ trình từ con số không",
+        "elements": [
+          "Bình luận {en:DE} | Nhận lộ trình chi tiết",
+          "Dự án thực chiến | Thay đổi hoàn toàn cách học",
+          "Follow me | Theo dõi ngay"
+        ]
+      }
+    ]
+  },
+  {
+    "projectId": "proj_de_camp_ngay_03",
+    "projectName": "Học tool riêng lẻ là học vẹt",
+    "aspectRatio": "9:16",
+    "theme": "Stats/Data",
+    "voiceGender": "MALE",
+    "ref_audio": "D:/AI/Rikkei_Edu_agent/marketing-video-maker/test_voice_clone.wav",
+    "backgroundMusic": "D:/AI/Repos/html-video/templates/frame-product-promo-30s/assets/warm-pad.mp3",
+    "scenes": [
+      {
+        "id": "s0",
+        "layout": "hook",
+        "voiceover": "Biết {en:Spark}, {en:Kafka}, {en:Airflow} mà chưa từng ghép chúng lại để giải một bài toán thật — với nhà tuyển dụng, bạn vẫn là con số không. Vì họ không hỏi em biết công cụ gì, họ hỏi em đã xây dựng được gì.",
+        "eyebrow": "⚡ TƯ DUY KHÁC BIỆT",
+        "headline": "HỌC TOOL = HỌC VẸT?",
+        "subtitle": "Nhà tuyển dụng không hỏi em biết tool gì, họ hỏi em đã build được gì"
+      },
+      {
+        "id": "s1",
+        "layout": "reveal",
+        "voiceover": "Nhiều bạn liệt kê mười công cụ trong {en:CV} nhìn rất ngầu. Nhưng khi phỏng vấn bị hỏi thiết kế luồng dữ liệu thực tế từ {en:web} về kho dữ liệu để báo cáo doanh thu là đứng hình ngay.",
+        "eyebrow": "Thực tế phỏng vấn",
+        "headline": "ĐƠ HÌNH KHI BỊ HỎI",
+        "subtitle": "Ấp úng trước câu hỏi luân chuyển dữ liệu thực tế",
+        "elements": [
+          "{en:CV} mười tool | {en:Spark}, {en:Kafka}, {en:Airflow}, {en:Docker}, {en:dbt}",
+          "Câu hỏi thực tế | Thiết kế luồng đơn hàng từ {en:web} về kho dữ liệu"
+        ]
+      },
+      {
+        "id": "s2",
+        "layout": "stats",
+        "voiceover": "Công cụ chỉ là cái cờ lê. Cái nhà tuyển dụng mua là khả năng lắp ráp cả cỗ máy — một {en:pipeline} chạy được từ đầu đến cuối trên dữ liệu thật có lỗi, có trùng.",
+        "eyebrow": "Bản chất công việc",
+        "headline": "LẮP RÁP CỖ MÁY",
+        "subtitle": "Khả năng xây dựng hệ thống chạy thông suốt quan trọng hơn biết {en:tool}"
+      },
+      {
+        "id": "s3",
+        "layout": "cta",
+        "voiceover": "Đừng chỉ đếm số công cụ học được, hãy tập trung vào số {en:pipeline} thực tế bạn tự tay xây dựng. Theo dõi mình để xem cách kết nối các công cụ thành một dự án thực chiến hoàn chỉnh.",
+        "headline": "KẾT NỐI CÔNG CỤ",
+        "subtitle": "Xây dựng dự án thực chiến trong portfolio của bạn",
+        "elements": [
+          "Ngừng học vẹt | Tập trung vào dự án thật",
+          "Xây dựng {en:pipeline} | Dữ liệu lỗi và {en:realtime}",
+          "Follow me | Theo dõi ngay"
+        ]
+      }
+    ]
+  },
+  {
+    "projectId": "proj_de_camp_ngay_04",
+    "projectName": "AI có thay thế Data Engineer?",
+    "aspectRatio": "9:16",
+    "theme": "Hook/Danger",
+    "voiceGender": "MALE",
+    "ref_audio": "D:/AI/Rikkei_Edu_agent/marketing-video-maker/test_voice_clone.wav",
+    "backgroundMusic": "D:/AI/Repos/html-video/templates/frame-product-promo-30s/assets/warm-pad.mp3",
+    "scenes": [
+      {
+        "id": "s0",
+        "layout": "hook",
+        "voiceover": "Ai cũng sợ trí tuệ nhân tạo cướp việc của {en:Data Engineer}. Nhưng sự thật hoàn toàn ngược lại: {en:AI} đang khiến nghề này cần nhiều nhân lực hơn bao giờ hết, nếu bạn biết một thứ.",
+        "eyebrow": "⚡ CẢNH BÁO AI",
+        "headline": "AI CƯỚP VIỆC DE?",
+        "subtitle": "Sự thật ngược lại sẽ khiến bạn vô cùng bất ngờ"
+      },
+      {
+        "id": "s1",
+        "layout": "reveal",
+        "voiceover": "ChatGPT có thể viết {en:SQL} và sinh mã nguồn {en:pipeline} trong năm giây. Nhưng đó chỉ là các mảnh rời rạc. Nó không biết dữ liệu của bạn nằm ở đâu, bị lỗi gì, và không thể chịu trách nhiệm khi hệ thống đổ vỡ lúc hai giờ sáng.",
+        "eyebrow": "Giới hạn của AI",
+        "headline": "CHỈ LÀ CÁC MẢNH RỜI",
+        "subtitle": "AI không thể thiết kế hệ thống và chịu trách nhiệm vận hành",
+        "elements": [
+          "Sinh code nhanh | Viết {en:SQL} và {en:pipeline} trong 5 giây",
+          "Không chịu trách nhiệm | Khi hệ thống đổ vỡ lúc 2 giờ sáng"
+        ]
+      },
+      {
+        "id": "s2",
+        "layout": "reveal",
+        "voiceover": "Các công ty đang đổ tiền xây dựng hệ thống dữ liệu để nuôi {en:AI}. Mà trí tuệ nhân tạo thì ăn dữ liệu sạch, có cấu trúc và {en:realtime} — đúng thứ mà kỹ sư dữ liệu tạo ra. Không có {en:Data Engineer}, {en:AI} chỉ là rác vào rác ra.",
+        "eyebrow": "Mối quan hệ dữ liệu",
+        "headline": "NUÔI TRÍ TUỆ NHÂN TẠO",
+        "subtitle": "AI cần dữ liệu sạch và realtime từ Data Engineer",
+        "elements": [
+          "Dữ liệu sạch | AI cần thức ăn chất lượng để chạy tốt",
+          "Rác vào rác ra | Không có {en:DE} thì hệ thống AI vô giá trị"
+        ]
+      },
+      {
+        "id": "s3",
+        "layout": "stats",
+        "voiceover": "Người bị thay thế không phải {en:Data Engineer}, mà là người không biết dùng {en:AI} để tối ưu hiệu suất công việc. Thế hệ mới là các {en:AI-Native Data Engineer}: dùng {en:AI} làm trợ lý để tăng gấp đôi tốc độ xây dựng hệ thống.",
+        "eyebrow": "Thế hệ mới",
+        "headline": "AI-NATIVE DE",
+        "subtitle": "Dùng AI làm trợ lý đắc lực để tối ưu hóa quy trình làm việc"
+      },
+      {
+        "id": "s4",
+        "layout": "cta",
+        "voiceover": "Nên câu hỏi đúng là bạn đã biết làm việc cùng {en:AI} chưa. Theo dõi mình để bắt đầu hành trình trở thành {en:AI-Native Data Engineer} từ con số không nhé!",
+        "headline": "HÀNH TRÌNH BẮT ĐẦU",
+        "subtitle": "Học cách làm việc cùng AI để làm chủ tương lai",
+        "elements": [
+          "Làm việc cùng {en:AI} | Tối ưu hóa hiệu suất làm việc",
+          "Từ con số không | Lộ trình thực chiến rõ ràng",
+          "Follow me | Theo dõi ngay"
+        ]
+      }
+    ]
+  }
+]

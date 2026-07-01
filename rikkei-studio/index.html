@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rikkei Video Studio</title>
+  <meta name="description" content="Rikkei Video Studio — Tạo video marketing với AI voice cloning, chạy trên máy local">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<div class="app">
+  <!-- ═══ TOOLBAR ═══════════════════════════════════════ -->
+  <header class="toolbar">
+    <div class="brand">
+      <div class="logo">R</div>
+      <div>
+        <h1>Rikkei Studio</h1>
+      </div>
+    </div>
+    <div class="toolbar-section" style="gap: 8px; margin-left: 15px;">
+      <select id="projectSelector" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #fff; padding: 6px 12px; border-radius: 8px; outline: none; font-size: 13px; font-weight: 600; cursor: pointer;"></select>
+      <button class="btn btn-sm btn-icon" id="btnNewProject" title="Tạo dự án mới" style="background: rgba(120, 87, 255, 0.2); color: #a855f7; border: 1px solid rgba(120, 87, 255, 0.3); font-weight: bold; padding: 4px 10px;">+ New</button>
+    </div>
+    <input class="project-name" id="projectName" type="text" value="DE Marketing Video" spellcheck="false" style="margin-left: 10px; width: 160px;">
+    <div class="spacer"></div>
+    <div class="toolbar-section" style="gap:6px">
+      <div class="status-dot" id="statusDot"></div>
+      <span class="status-label" id="statusLabel">Connecting...</span>
+    </div>
+    <button class="btn btn-sm" id="btnLoadTTS" title="Load VieNeu-TTS engine">🔧 Load TTS</button>
+    <button class="btn btn-primary" id="btnExport">📦 Export MP4</button>
+  </header>
+
+  <!-- ═══ MAIN CONTENT ═════════════════════════════════ -->
+  <div class="main-content">
+    <!-- ── SIDEBAR: Scene List ─────────────────────── -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h2>📋 Scenes</h2>
+        <div style="display:flex; gap:4px">
+          <button class="btn btn-sm btn-icon btn-danger" id="btnDeleteScene" title="Xóa scene hiện tại">🗑️</button>
+          <button class="btn btn-sm btn-icon" id="btnAddScene" title="Thêm scene">+</button>
+        </div>
+      </div>
+      <div class="scene-list" id="sceneList">
+        <!-- Populated by JS -->
+      </div>
+    </aside>
+
+    <!-- ── CENTER: Preview + Timeline ─────────────── -->
+    <main class="center-panel">
+      <div class="preview-area">
+        <div class="preview-container" id="previewContainer">
+          <iframe id="previewFrame" sandbox="allow-scripts allow-same-origin"></iframe>
+          <div class="edit-indicator">✏️ Click to edit</div>
+          <!-- Pipeline loading overlay -->
+          <div class="pipeline-loading-overlay" id="pipelineLoading" style="display:none;">
+            <span class="spinner" style="width: 50px; height: 50px; border-width: 4px;"></span>
+            <h3 id="pipelineStatusText">Đang khởi chạy luồng sinh video...</h3>
+          </div>
+        </div>
+        <div class="preview-controls">
+          <button class="btn btn-sm btn-icon" id="btnPrev" title="Previous">⏮</button>
+          <button class="btn btn-sm btn-icon" id="btnPlay" title="Play/Pause">▶</button>
+          <button class="btn btn-sm btn-icon" id="btnNext" title="Next">⏭</button>
+          <button class="btn btn-sm" id="btnPlayAll" title="Phát toàn bộ video" style="margin-left: 6px;">🎞️ Play All</button>
+          <span class="time-display" id="timeDisplay">0:00 / 0:00</span>
+        </div>
+      </div>
+      <div class="timeline" id="timeline">
+        <!-- Populated by JS -->
+      </div>
+    </main>
+
+    <!-- ── RIGHT PANEL: Settings ──────────────────── -->
+    <aside class="right-panel">
+      <div class="panel-tabs">
+        <button class="panel-tab active" data-tab="flow">⚡ Flow</button>
+        <button class="panel-tab" data-tab="voice">🎤 Voice</button>
+        <button class="panel-tab" data-tab="music">🎵 Music</button>
+        <button class="panel-tab" data-tab="visual">🎨 Visual</button>
+        <button class="panel-tab" data-tab="text">📝 Text</button>
+      </div>
+
+      <!-- TAB: Auto Flow -->
+      <div class="panel-content" id="tab-flow">
+        <div class="section-title">⚡ End-to-End Video Pipeline</div>
+        <p style="font-size: 13px; color: #a1a1aa; margin-bottom: 12px; line-height: 1.4;">
+          Nhập kịch bản video của bạn tại đây. Hệ thống sẽ tự động phân chia phân cảnh, sinh thuyết minh giọng nói VieNeu-TTS local, tạo phụ đề, trộn nhạc nền và render xuất video MP4 tự động.
+        </p>
+        <!-- Template Selection Tags -->
+        <div class="template-selector" style="margin: 15px 0 10px 0;">
+          <span style="font-size: 11px; color: #a1a1aa; display: block; margin-bottom: 6px; font-weight: 500;">💡 Sử dụng kịch bản mẫu nhanh:</span>
+          <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+            <span class="template-tag" data-type="de" style="cursor: pointer; background: rgba(120, 87, 255, 0.15); color: #c084fc; border: 1px solid rgba(120, 87, 255, 0.3); padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; transition: all 0.2s ease;">📊 Marketing Data Engineer</span>
+            <span class="template-tag" data-type="iot" style="cursor: pointer; background: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3); padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; transition: all 0.2s ease;">🏠 IoT Smart Home</span>
+          </div>
+        </div>
+
+        <!-- Premium Glassmorphism Script Editor -->
+        <div class="pipeline-container-editor" style="background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 16px; padding: 16px; box-shadow: inset 0 2px 10px rgba(0,0,0,0.3); margin-bottom: 18px; transition: all 0.3s ease;">
+          <textarea id="pipelineScript" placeholder="Nhập kịch bản video của bạn tại đây...
+Phân cách các phân cảnh bằng dấu gạch ngang ( --- ) hoặc dòng trống.
+
+Ví dụ:
+Cảnh 1: Chào mừng các bạn đến với Rikkei Video Studio...
+---
+Cảnh 2: Ứng dụng này sử dụng CPU và GPU cục bộ để chạy..." style="width: 100%; height: 200px; background: transparent; border: none; resize: vertical; color: #f4f4f5; font-family: inherit; font-size: 13px; line-height: 1.6; outline: none;" spellcheck="false"></textarea>
+          <div class="pipeline-editor-footer" style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px; font-size: 11px; color: #71717a; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 8px;">
+            <span>Phân tách cảnh bằng <code style="background: rgba(255,255,255,0.05); padding: 2px 4px; border-radius: 4px; color: #fb923c;">---</code></span>
+            <span id="scriptCharCount"><span class="scene-badge-indicator" style="background: rgba(120, 87, 255, 0.1); color: #a855f7; border: 1px solid rgba(120, 87, 255, 0.2); padding: 2px 6px; border-radius: 12px; font-weight: 600;">0 ký tự</span></span>
+          </div>
+        </div>
+
+        <button class="btn btn-primary btn-block" id="btnRunPipeline" style="background: linear-gradient(135deg, #783cff, #ef4444); border: none; padding: 12px; font-weight: 700; border-radius: 12px; letter-spacing: 0.5px; box-shadow: 0 10px 25px rgba(120, 87, 255, 0.25); cursor: pointer; transition: all 0.3s ease;">⚡ Generate Video</button>
+        
+        <!-- Result Video -->
+        <div id="pipelineResultArea" style="margin-top: 20px; display: none;">
+          <div style="font-weight: 700; font-size: 14px; margin-bottom: 8px; color: var(--accent);">🎬 Video thành phẩm:</div>
+          <video id="pipelineVideoPlayer" controls style="width: 100%; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); background: #000; height: 180px; object-fit: contain;"></video>
+          <a id="btnDownloadPipelineVideo" class="btn btn-block" style="margin-top: 8px; text-align: center; text-decoration: none; background: #059669;" download="final_video.mp4">💾 Tải về file MP4</a>
+        </div>
+      </div>
+
+      <!-- TAB: Voice -->
+      <div class="panel-content" id="tab-voice" hidden>
+        <div class="panel-section">
+          <div class="panel-section-title">Voice Clone — Upload giọng mẫu</div>
+          <div class="drop-zone" id="voiceDropZone">
+            <div class="drop-icon">🎙️</div>
+            <div class="drop-label">Kéo thả file .wav/.mp3 vào đây</div>
+            <div class="drop-hint">hoặc click để chọn file</div>
+            <div class="file-name" id="voiceFileName" hidden></div>
+          </div>
+          <input type="file" id="voiceFileInput" accept=".wav,.mp3,.ogg,.flac" hidden>
+        </div>
+
+        <div class="panel-section">
+          <div class="panel-section-title">Preview giọng hiện tại</div>
+          <div class="audio-player" id="voicePreviewPlayer">
+            <button class="play-btn" id="btnPlayVoice">▶</button>
+            <span class="audio-name" id="voicePreviewName">voice_preview.mp3 (default)</span>
+          </div>
+          <audio id="voicePreviewAudio" src="/assets/voice_preview.mp3" preload="none"></audio>
+        </div>
+
+        <div class="panel-section">
+          <div class="panel-section-title">Cài đặt TTS</div>
+          <div class="slider-group">
+            <div class="slider-label">
+              <span>Tốc độ đọc</span>
+              <span class="slider-value" id="speedVal">1.12x</span>
+            </div>
+            <input type="range" id="speedSlider" min="0.8" max="1.5" step="0.01" value="1.12">
+          </div>
+          <div class="slider-group">
+            <div class="slider-label">
+              <span>Temperature</span>
+              <span class="slider-value" id="tempVal">0.2</span>
+            </div>
+            <input type="range" id="tempSlider" min="0.1" max="1.0" step="0.05" value="0.2">
+          </div>
+        </div>
+
+        <div class="panel-section">
+          <div class="panel-section-title">Kịch bản TTS (scene hiện tại)</div>
+          <textarea class="tts-textarea" id="ttsText" placeholder="Nhập kịch bản cho giọng đọc..."></textarea>
+          <div style="margin-top:8px; display:flex; gap:6px;">
+            <button class="btn btn-primary btn-sm" id="btnGenVoice" style="flex:1">🎤 Generate Voice</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB: Music -->
+      <div class="panel-content" id="tab-music" hidden>
+        <div class="panel-section">
+          <div class="panel-section-title">Nhạc nền — Upload hoặc kéo thả</div>
+          <div class="drop-zone" id="musicDropZone">
+            <div class="drop-icon">🎵</div>
+            <div class="drop-label">Kéo thả file nhạc vào đây</div>
+            <div class="drop-hint">.mp3, .wav, .ogg</div>
+            <div class="file-name" id="musicFileName" hidden></div>
+          </div>
+          <input type="file" id="musicFileInput" accept=".wav,.mp3,.ogg,.flac" hidden>
+        </div>
+
+        <div class="panel-section">
+          <div class="panel-section-title">Nhạc nền hiện tại</div>
+          <div class="audio-player" id="musicPlayer">
+            <button class="play-btn" id="btnPlayMusic">▶</button>
+            <span class="audio-name" id="musicName">background_music.mp3</span>
+          </div>
+          <audio id="musicAudio" src="/assets/background_music.mp3" preload="none"></audio>
+        </div>
+
+        <div class="panel-section">
+          <div class="panel-section-title">Âm lượng</div>
+          <div class="slider-group">
+            <div class="slider-label">
+              <span>Giọng đọc (dB)</span>
+              <span class="slider-value" id="narVolVal">+3</span>
+            </div>
+            <input type="range" id="narVolSlider" min="-10" max="10" step="1" value="3">
+          </div>
+          <div class="slider-group">
+            <div class="slider-label">
+              <span>Nhạc nền (dB)</span>
+              <span class="slider-value" id="musicVolVal">-19</span>
+            </div>
+            <input type="range" id="musicVolSlider" min="-30" max="0" step="1" value="-19">
+          </div>
+          <div class="slider-group">
+            <div class="slider-label">
+              <span>Fade out (giây)</span>
+              <span class="slider-value" id="fadeVal">2s</span>
+            </div>
+            <input type="range" id="fadeSlider" min="0" max="5" step="0.5" value="2">
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB: Visual -->
+      <div class="panel-content" id="tab-visual" hidden>
+        <div class="panel-section">
+          <div class="panel-section-title">Theme màu (scene hiện tại)</div>
+          <div class="theme-grid" id="themeGrid">
+            <div class="theme-swatch active" data-theme="hook" style="background: linear-gradient(135deg, #783cff, #dc2626)" title="Hook">🔥</div>
+            <div class="theme-swatch" data-theme="reveal" style="background: linear-gradient(135deg, #059669, #2563eb)" title="Reveal">💡</div>
+            <div class="theme-swatch" data-theme="stats" style="background: linear-gradient(135deg, #2563eb, #ea580c)" title="Stats">⚠️</div>
+            <div class="theme-swatch" data-theme="solution" style="background: linear-gradient(135deg, #6366f1, #f97316)" title="Solution">🔧</div>
+            <div class="theme-swatch" data-theme="cta" style="background: linear-gradient(135deg, #ea580c, #dc2626)" title="CTA">👇</div>
+          </div>
+        </div>
+
+        <div class="panel-section">
+          <div class="panel-section-title">Resolution</div>
+          <select class="tts-textarea" id="resolutionSelect" style="min-height:auto; padding:8px 12px; cursor:pointer">
+            <option value="1080x1920" selected>1080 × 1920 (9:16 Portrait)</option>
+            <option value="720x1280">720 × 1280 (9:16 Nhẹ hơn)</option>
+            <option value="1920x1080">1920 × 1080 (16:9 Landscape)</option>
+          </select>
+        </div>
+
+        <div class="panel-section">
+          <div class="panel-section-title">Mascot</div>
+          <div class="audio-player" style="cursor:pointer" id="mascotPreview">
+            <span style="font-size:24px">🐾</span>
+            <span class="audio-name">mascot.png — Kéo để di chuyển trong preview</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB: Text -->
+      <div class="panel-content" id="tab-text" hidden>
+        <div class="panel-section">
+          <div class="panel-section-title">Kicker (Scene hiện tại)</div>
+          <input class="tts-textarea" id="editKicker" type="text" style="min-height:auto; padding:8px 12px" placeholder="VD: 🔥 CẢNH BÁO 🔥">
+        </div>
+        <div class="panel-section">
+          <div class="panel-section-title">Title</div>
+          <input class="tts-textarea" id="editTitle" type="text" style="min-height:auto; padding:8px 12px" placeholder="VD: HỌC VẸT TOOL">
+        </div>
+        <div class="panel-section">
+          <div class="panel-section-title">Card 1</div>
+          <input class="tts-textarea" id="editCard1Badge" type="text" style="min-height:auto; padding:8px 12px; margin-bottom:4px" placeholder="Badge">
+          <input class="tts-textarea" id="editCard1Name" type="text" style="min-height:auto; padding:8px 12px; margin-bottom:4px" placeholder="Name">
+          <input class="tts-textarea" id="editCard1Status" type="text" style="min-height:auto; padding:8px 12px" placeholder="Status">
+        </div>
+        <div class="panel-section">
+          <div class="panel-section-title">Card 2</div>
+          <input class="tts-textarea" id="editCard2Badge" type="text" style="min-height:auto; padding:8px 12px; margin-bottom:4px" placeholder="Badge">
+          <input class="tts-textarea" id="editCard2Name" type="text" style="min-height:auto; padding:8px 12px; margin-bottom:4px" placeholder="Name">
+          <input class="tts-textarea" id="editCard2Status" type="text" style="min-height:auto; padding:8px 12px" placeholder="Status">
+        </div>
+        <div style="margin-top:10px">
+          <button class="btn btn-primary" id="btnApplyText" style="width:100%">✅ Apply Changes</button>
+        </div>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<!-- Custom Prompt Modal -->
+<div class="modal-overlay" id="promptModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); backdrop-filter:blur(4px); z-index:2000; align-items:center; justify-content:center;">
+  <div class="modal-card" style="background:#16161f; border:1px solid rgba(255,255,255,0.08); border-radius:12px; padding:24px; width:360px; max-width:90%; box-shadow:0 16px 48px rgba(0,0,0,0.5); text-align:left; transform:scale(0.9); transition:all 0.2s ease;">
+    <div style="font-size:36px; margin-bottom:12px; text-align:center;">📁</div>
+    <h3 style="margin:0 0 12px 0; color:#fff; font-size:16px; font-weight:600; text-align:center;">Tạo dự án mới</h3>
+    <div style="margin-bottom:20px;">
+      <label style="display:block; color:#a0a0b8; font-size:12px; margin-bottom:6px;">Tên dự án:</label>
+      <input class="tts-textarea" id="txtNewProjectName" type="text" style="min-height:auto; padding:10px 12px; width:100%; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); color:#fff; border-radius:8px; outline:none;" placeholder="VD: Dự án Tết 2026..." autofocus>
+    </div>
+    <div style="display:flex; justify-content:center; gap:12px;">
+      <button class="btn btn-sm" id="btnPromptCancel" style="flex:1; justify-content:center;">Hủy</button>
+      <button class="btn btn-sm btn-primary" id="btnPromptOK" style="flex:1; justify-content:center;">Tạo ngay</button>
+    </div>
+  </div>
+</div>
+
+<!-- Custom Confirm Modal -->
+<div class="modal-overlay" id="confirmModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); backdrop-filter:blur(4px); z-index:2000; align-items:center; justify-content:center;">
+  <div class="modal-card" style="background:#16161f; border:1px solid rgba(255,255,255,0.08); border-radius:12px; padding:24px; width:360px; max-width:90%; box-shadow:0 16px 48px rgba(0,0,0,0.5); text-align:center; transform:scale(0.9); transition:all 0.2s ease;">
+    <div style="font-size:36px; margin-bottom:12px;">🗑️</div>
+    <h3 style="margin:0 0 8px 0; color:#fff; font-size:16px; font-weight:600;">Xóa phân cảnh</h3>
+    <p style="margin:0 0 20px 0; color:#a0a0b8; font-size:13px; line-height:1.5;">Bạn có chắc chắn muốn xóa phân cảnh này không? Bạn có thể khôi phục lại phân cảnh này sau khi xóa.</p>
+    <div style="display:flex; justify-content:center; gap:12px;">
+      <button class="btn btn-sm" id="btnConfirmCancel" style="flex:1; justify-content:center;">Hủy</button>
+      <button class="btn btn-sm btn-primary" id="btnConfirmOK" style="flex:1; justify-content:center; background:#ef4444; border-color:rgba(239,68,68,0.4);">Xóa ngay</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast container -->
+<div class="toast-container" id="toastContainer"></div>
+
+<script src="/app.js"></script>
+</body>
+</html>

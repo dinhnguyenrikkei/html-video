@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  studio:
+    build: .
+    container_name: rikkei_studio
+    ports:
+      - "3080:3080"
+    volumes:
+      # Map thư mục exports và projects ra ngoài máy thật để bạn dễ dàng lấy video mp4 sau khi render
+      - ./exports:/app/exports
+      - ./.html-video/projects:/app/.html-video/projects
+      - ./scripts/inputs:/app/scripts/inputs
+    environment:
+      - PORT=3080
+      # Nếu bạn cài VieNeu trong docker, bạn có thể truyền Token HuggingFace vào đây để tải model
+      # - HF_TOKEN=your_token_here
+    # Lệnh dưới đây cho phép chạy bằng GPU NVIDIA nếu máy bạn đã cài NVIDIA Container Toolkit
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: 1
+    #           capabilities: [gpu]

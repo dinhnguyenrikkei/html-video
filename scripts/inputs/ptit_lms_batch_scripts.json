@@ -1,0 +1,204 @@
+[
+  {
+    "projectId": "proj_lms_vietnamese_tvc",
+    "projectName": "Rikkei LMS Solution TVC",
+    "aspectRatio": "16:9",
+    "theme": "Solution/Brand",
+    "voiceGender": "MALE",
+    "backgroundMusic": "D:/AI/Repos/html-video/templates/frame-product-promo-30s/assets/warm-pad.mp3",
+    "scenes": [
+      {
+        "id": "s0",
+        "layout": "hook",
+        "voiceover": "Môi trường học tập hiện đại ngày nay vô cùng phức tạp và dễ mất định hướng.",
+        "eyebrow": "⚡ Thách thức giáo dục",
+        "headline": "HỌC TẬP PHỨC TẠP?",
+        "subtitle": "Học viên dễ mất phương hướng trong khối lượng học liệu khổng lồ"
+      },
+      {
+        "id": "s1",
+        "layout": "reveal",
+        "voiceover": "Quản lý tiến độ hay xây dựng lộ trình cá nhân hóa đang là thách thức lớn của nhiều tổ chức và nhà trường.",
+        "eyebrow": "Thách thức cốt lõi",
+        "headline": "70% TỔ CHỨC",
+        "subtitle": "Gặp khó khăn trong việc số hóa lộ trình học và quản lý tiến độ nhân sự",
+        "elements": [
+          "Quản lý tiến độ | Không có công cụ theo dõi thời gian thực",
+          "Lộ trình rời rạc | Thiếu hệ thống cá nhân hóa lộ trình đào tạo"
+        ]
+      },
+      {
+        "id": "s2",
+        "layout": "brand-reveal",
+        "voiceover": "Để giải quyết bài toán đó, {en:Rikkei Education} mang đến giải pháp quản lý học tập tối ưu – {en:Rikkei Education LMS}.",
+        "headline": "RIKKEI LMS",
+        "subtitle": "Giải pháp quản lý học tập tối ưu toàn diện"
+      },
+      {
+        "id": "s3",
+        "layout": "stats",
+        "voiceover": "Hệ thống giúp trực quan hóa tiến độ học tập theo thời gian thực, giúp học viên dễ dàng theo dõi lộ trình của mình.",
+        "eyebrow": "⚡ Quản lý trực quan",
+        "headline": "TIẾN ĐỘ THỜI GIAN THỰC",
+        "subtitle": "Tự động thống kê kết quả học tập và hiển thị Dashboard sinh động"
+      },
+      {
+        "id": "s4",
+        "layout": "learning-path",
+        "voiceover": "Các khóa học được thiết kế theo lộ trình chuẩn. Hoàn thành bài cũ để mở khóa bài mới, đảm bảo kiến thức được tiếp thu chắc chắn.",
+        "eyebrow": "⚡ Học chuẩn hóa",
+        "headline": "MỞ KHÓA BÀI HỌC",
+        "subtitle": "Cam kết chất lượng đầu ra nhờ quy trình học tập tuần tự chặt chẽ",
+        "elements": [
+          "Nền tảng {en:IT} cơ bản | Hoàn thành",
+          "Cơ sở dữ liệu {en:SQL} | Mở khóa",
+          "Lập trình {en:Java Web} | Khóa"
+        ]
+      },
+      {
+        "id": "s5",
+        "layout": "card-list",
+        "voiceover": "Tích hợp đa dạng tài nguyên học liệu: từ video giảng dạy trực quan, tài liệu đọc, cho đến hệ thống bài kiểm tra trắc nghiệm và tự luận.",
+        "eyebrow": "⚡ Đa dạng học liệu",
+        "headline": "TÀI NGUYÊN TÍCH HỢP",
+        "elements": [
+          "Video Trực Quan | Học tập sinh động qua các bài giảng video",
+          "Hệ thống {en:Quiz} | Kiểm tra nhanh kiến thức bằng trắc nghiệm",
+          "Bài Tập Thực Hành | Rèn luyện tay nghề thông qua các dự án {en:LAB}"
+        ]
+      },
+      {
+        "id": "s6",
+        "layout": "admin-report",
+        "voiceover": "Dành cho nhà quản lý: {en:Dashboard} thông minh giúp dễ dàng phân bổ khóa học, giám sát tiến độ và xuất báo cáo chi tiết chỉ với vài cú click.",
+        "eyebrow": "⚡ Quản trị tối ưu",
+        "headline": "DASHBOARD THÔNG MINH",
+        "subtitle": "Phân bổ khóa học nhanh chóng, giám sát tiến độ tự động",
+        "elements": [
+          "Tỷ lệ hoàn thành khóa | 85%",
+          "Điểm số trung bình | 78%",
+          "Mức độ hài lòng học viên | 92%"
+        ]
+      },
+      {
+        "id": "s7",
+        "layout": "cta",
+        "voiceover": "Nâng cao ba mươi phần trăm năng suất đào tạo, tiết kiệm hai mươi phần trăm thời gian quản lý, cam kết chất lượng đầu ra vững chắc cho tổ chức. Hãy truy cập {en:portal} chấm {en:rikkei} chấm {en:edu} chấm {en:vn} để trải nghiệm ngay hôm nay!",
+        "headline": "RIKKEI EDUCATION",
+        "subtitle": "Kiến tạo chất lượng đào tạo số",
+        "elements": [
+          "+30% | Năng suất đào tạo",
+          "-20% | Thời gian quản lý",
+          "Cam kết | Chất lượng đầu ra"
+        ]
+      }
+    ]
+  },
+  {
+    "projectId": "proj_ptit_interview_tiktok",
+    "projectName": "PTIT Student Interview TikTok",
+    "aspectRatio": "9:16",
+    "theme": "Hook/Danger",
+    "voiceGender": "FEMALE",
+    "backgroundMusic": "D:/AI/Repos/html-video/templates/frame-product-promo-30s/assets/warm-pad.mp3",
+    "scenes": [
+      {
+        "id": "s0",
+        "layout": "hook",
+        "voiceover": "Kỷ niệm làm dự án thực tế khiến bạn mất nhiều công sức và nhớ nhất trong năm qua là gì?",
+        "eyebrow": "⚡ PHỎNG VẤN PTIT",
+        "headline": "DỰ ÁN KHÓ NHẤT?",
+        "subtitle": "Khảnh khắc làm đồ án thực tế khiến bạn nhớ nhất"
+      },
+      {
+        "id": "s1",
+        "layout": "reveal",
+        "voiceover": "Lần đầu tiên đi thực tập, bỡ ngỡ với các dự án lớn từ khách hàng quốc tế, phải báo cáo tiến độ và làm việc như kỹ sư thực sự.",
+        "eyebrow": "Thực tập thực tế",
+        "headline": "80% SINH VIÊN",
+        "subtitle": "Bỡ ngỡ khi lần đầu chạm tay vào các dự án thương mại thực tế",
+        "elements": [
+          "Dự án thật | Làm module thật cho khách hàng Nhật Bản",
+          "Deadline thật | Áp lực báo cáo tiến độ hàng tuần"
+        ]
+      },
+      {
+        "id": "s2",
+        "layout": "stats",
+        "voiceover": "Thế nhưng, hơn tám mươi phần trăm sinh viên {en:IT} liên kết tại {en:PTIT} đều hoàn thành đồ án xuất sắc và sẵn sàng làm việc ngay từ năm ba.",
+        "eyebrow": "⚡ Kết quả vượt trội",
+        "headline": "SẴN SÀNG LÀM VIỆC",
+        "subtitle": "Kỹ năng thực chiến vượt trội so với chương trình đại học thông thường"
+      },
+      {
+        "id": "s3",
+        "layout": "cta",
+        "voiceover": "Chọn chương trình đào tạo {en:IT} liên kết doanh nghiệp của {en:PTIT} hợp tác cùng {en:Rikkeisoft} để bứt phá kỹ năng thực chiến và cam kết việc làm bằng văn bản pháp lý nhé!",
+        "headline": "PTIT x RIKKEISOFT",
+        "subtitle": "Cam kết việc làm bằng văn bản pháp lý",
+        "elements": [
+          "Học thực tế | Làm việc ngay năm 1",
+          "Mentor tốt | Hỗ trợ 1 kèm 1 từ kịch bản",
+          "Cam kết | Việc làm đầu ra vững chắc"
+        ]
+      }
+    ]
+  },
+  {
+    "projectId": "proj_ptit_dual_education_tvc",
+    "projectName": "PTIT x Rikkeisoft Dual Education TVC",
+    "aspectRatio": "16:9",
+    "theme": "Stats/Data",
+    "voiceGender": "MALE",
+    "backgroundMusic": "D:/AI/Repos/html-video/templates/frame-product-promo-30s/assets/warm-pad.mp3",
+    "scenes": [
+      {
+        "id": "s0",
+        "layout": "hook",
+        "voiceover": "Không chờ đến khi tốt nghiệp mới bắt đầu tìm việc, nhiều sinh viên ngành Công nghệ thông tin tại Học viện {en:PTIT} được doanh nghiệp săn đón ngay từ năm thứ ba.",
+        "eyebrow": "⚡ Xu hướng đào tạo",
+        "headline": "SĂN ĐÓN TỪ NĂM BA",
+        "subtitle": "Sinh viên Công nghệ thông tin PTIT nhận trợ cấp và đi làm sớm"
+      },
+      {
+        "id": "s1",
+        "layout": "reveal",
+        "voiceover": "Giải mã mô hình đào tạo đưa doanh nghiệp vào giảng đường của Học viện Công nghệ Bưu chính Viễn thông {en:PTIT} hợp tác chiến lược cùng {en:Rikkeisoft}.",
+        "eyebrow": "Mô hình Đào tạo Kép",
+        "headline": "1000+ SINH VIÊN",
+        "subtitle": "Được đào tạo theo lộ trình 2 năm học chuyên môn, 2 năm làm việc thực tế",
+        "elements": [
+          "Cập nhật giáo trình | Tinh chỉnh giáo trình sát thực tiễn doanh nghiệp",
+          "Chuyên gia giảng dạy | Học tập trực tiếp cùng hơn 2500 kỹ sư thực chiến"
+        ]
+      },
+      {
+        "id": "s2",
+        "layout": "brand-reveal",
+        "voiceover": "Học viện Công nghệ Bưu chính Viễn thông tự hào là đại học dẫn đầu về chuyển đổi số với hơn ba mươi ngàn sinh viên tại hai cơ sở.",
+        "headline": "HỌC VIỆN PTIT",
+        "subtitle": "Bệ phóng công nghệ hàng đầu Việt Nam"
+      },
+      {
+        "id": "s3",
+        "layout": "stats",
+        "voiceover": "Sự phối hợp chặt chẽ giữa nhà trường và doanh nghiệp giúp nâng tầm thế hệ nhân lực số vững vàng lý thuyết, giỏi thực hành.",
+        "eyebrow": "⚡ Đào tạo toàn diện",
+        "headline": "HƠN 80% VIỆC LÀM",
+        "subtitle": "Sinh viên hoàn thành đồ án chất lượng cao và sẵn sàng đi làm tại Mỹ, Nhật Bản"
+      },
+      {
+        "id": "s4",
+        "layout": "cta",
+        "voiceover": "Hãy đăng ký tham gia sự kiện {en:Open Day} ngày mùng 3 tháng 7 để xét tuyển sớm đợt hai ngay hôm nay nhé!",
+        "headline": "PTIT x RIKKEISOFT",
+        "subtitle": "Đăng ký xét tuyển sớm đợt hai tại rikkei.edu.vn",
+        "elements": [
+          "Open Day | Ngày mùng 3 tháng 7",
+          "Xét tuyển | Nhận hồ sơ đợt hai",
+          "Website | rikkei.edu.vn"
+        ]
+      }
+    ]
+  }
+]
